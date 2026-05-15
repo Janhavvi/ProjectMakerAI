@@ -37,6 +37,21 @@ const escapeHtml = (value = '') => {
     .replace(/'/g, '&#039;');
 };
 
+const hasVisibleHtml = (html = '') => {
+  const visibleText = html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return (
+    html.includes('<body') &&
+    html.includes('</body>') &&
+    visibleText.length > 40
+  );
+};
+
 const getPromptSummary = (prompt) => {
   const match = prompt.match(/User request:\s*([\s\S]*?)(?:\n\nBuilder settings:|\n\nLive AI edit instruction:|$)/i);
   return (match?.[1] || prompt).trim().slice(0, 180);
@@ -715,7 +730,7 @@ const generateWebsite = async (req, res) => {
 
     const html = cleanHtml(data.choices?.[0]?.message?.content || '');
 
-    if (!html) {
+    if (!html || !hasVisibleHtml(html)) {
       return res.json({
         success: true,
         data: createFallbackWebsite(prompt),

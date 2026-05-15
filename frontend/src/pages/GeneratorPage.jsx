@@ -184,6 +184,21 @@ const escapeMarkup = (value = '') =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 
+const hasVisibleHtml = (html = '') => {
+  const visibleText = html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return (
+    html.includes('<body') &&
+    html.includes('</body>') &&
+    visibleText.length > 40
+  );
+};
+
 const getPromptType = (request = '') => {
   const lower = request.toLowerCase();
 
@@ -383,7 +398,7 @@ ${extraInstruction || 'No extra edit yet.'}
         (typeof responsePayload === 'string' ? responsePayload : '');
       let cleaned = cleanCode(rawHtml);
 
-      if (!cleaned) {
+      if (!cleaned || !hasVisibleHtml(cleaned)) {
         cleaned = prompt.toLowerCase().includes('weather')
           ? createLocalWeatherSite(prompt)
           : createLocalGeneratedSite(prompt, style, theme, pageType);
@@ -628,6 +643,7 @@ ${extraInstruction || 'No extra edit yet.'}
                 title="Generated Website"
                 className="site-preview"
                 style={{ width: deviceSizes[device] }}
+                sandbox="allow-scripts allow-forms allow-same-origin"
                 srcDoc={themedHtml}
               />
             </div>
