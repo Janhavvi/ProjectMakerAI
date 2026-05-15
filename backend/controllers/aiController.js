@@ -52,6 +52,30 @@ const hasVisibleHtml = (html = '') => {
   );
 };
 
+const isLowQualityGeneratedHtml = (html = '') => {
+  const text = html
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+
+  const weakSignals = [
+    'feature 1',
+    'feature 2',
+    'feature 3',
+    "it's a great feature",
+    'we hope you enjoy',
+    'learn more',
+    'welcome to our',
+    'this is a retro style landing page'
+  ];
+
+  const signalCount = weakSignals.filter((signal) => text.includes(signal)).length;
+
+  return signalCount >= 2 || (text.includes('feature 1') && text.includes('feature 2'));
+};
+
 const getPromptSummary = (prompt) => {
   const match = prompt.match(/User request:\s*([\s\S]*?)(?:\n\nBuilder settings:|\n\nLive AI edit instruction:|$)/i);
   return (match?.[1] || prompt).trim().slice(0, 180);
@@ -566,8 +590,8 @@ const createFallbackWebsite = (prompt) => {
       <h1>${summary}</h1>
       <p class="lead">The cloud AI provider timed out, so ProjectMaker generated this local responsive preview with smart sections, theme-ready styling, animation-ready cards, and exportable HTML.</p>
       <div class="actions">
-        <a href="#sections">Explore sections</a>
-        <button onclick="document.body.classList.toggle('light')">Transform theme</button>
+        <button type="button" onclick="document.getElementById('sections')?.scrollIntoView({ behavior: 'smooth', block: 'start' })">Explore sections</button>
+        <button type="button" onclick="document.body.classList.toggle('light')">Transform theme</button>
       </div>
     </div>
   </header>
@@ -730,12 +754,12 @@ const generateWebsite = async (req, res) => {
 
     const html = cleanHtml(data.choices?.[0]?.message?.content || '');
 
-    if (!html || !hasVisibleHtml(html)) {
+    if (!html || !hasVisibleHtml(html) || isLowQualityGeneratedHtml(html)) {
       return res.json({
         success: true,
         data: createFallbackWebsite(prompt),
         warning:
-          'The AI provider returned empty content, so ProjectMaker generated a local website preview.'
+          'The AI provider returned a generic template, so ProjectMaker generated a premium local website preview.'
       });
     }
 

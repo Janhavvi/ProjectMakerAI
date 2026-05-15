@@ -199,6 +199,30 @@ const hasVisibleHtml = (html = '') => {
   );
 };
 
+const isLowQualityGeneratedHtml = (html = '') => {
+  const text = html
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+
+  const weakSignals = [
+    'feature 1',
+    'feature 2',
+    'feature 3',
+    "it's a great feature",
+    'we hope you enjoy',
+    'learn more',
+    'welcome to our',
+    'this is a retro style landing page'
+  ];
+
+  const signalCount = weakSignals.filter((signal) => text.includes(signal)).length;
+
+  return signalCount >= 2 || (text.includes('feature 1') && text.includes('feature 2'));
+};
+
 const getPromptType = (request = '') => {
   const lower = request.toLowerCase();
 
@@ -223,7 +247,56 @@ const getPromptType = (request = '') => {
   return 'Website';
 };
 
-const getLocalSections = (type) => {
+const resolveGenerationType = (request = '', selectedIndustry = 'Auto detect', selectedPageType = 'Landing page') => {
+  if (selectedPageType === 'Dashboard' || selectedPageType === 'Admin panel') return 'Dashboard';
+  if (selectedPageType === 'Pricing page') return 'Pricing';
+  if (selectedPageType === 'Blog page') return 'Blog';
+
+  const industryMap = {
+    Gym: 'Fitness',
+    Restaurant: 'Restaurant',
+    'AI SaaS': 'SaaS',
+    Education: 'Education',
+    Portfolio: 'Portfolio'
+  };
+
+  return industryMap[selectedIndustry] || getPromptType(request);
+};
+
+const humanizePromptTitle = (request = '', type = 'Website', selectedPageType = 'Landing page') => {
+  const cleaned = request
+    .toLowerCase()
+    .replace(/\b(create|make|build|generate|design|develop|give me|please)\b/g, '')
+    .replace(/\b(a|an|the|website|web site|site|page|landing page|app)\b/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const lower = request.toLowerCase();
+
+  if (type === 'Education' && (lower.includes('study') || lower.includes('ai'))) {
+    return 'StudyAI Learning Platform';
+  }
+
+  if (type === 'Restaurant') return cleaned ? `${toTitleCase(cleaned)} Dining Experience` : 'Premium Restaurant Experience';
+  if (type === 'Fitness') return cleaned ? `${toTitleCase(cleaned)} Fitness Studio` : 'Performance Fitness Studio';
+  if (type === 'Portfolio') return cleaned ? `${toTitleCase(cleaned)} Portfolio` : 'Creative Portfolio Studio';
+  if (type === 'Dashboard') return cleaned ? `${toTitleCase(cleaned)} Dashboard` : 'Command Center Dashboard';
+  if (type === 'Pricing') return cleaned ? `${toTitleCase(cleaned)} Pricing` : 'Conversion Pricing Page';
+  if (type === 'Blog') return cleaned ? `${toTitleCase(cleaned)} Journal` : 'Editorial Blog Platform';
+  if (type === 'Ecommerce') return cleaned ? `${toTitleCase(cleaned)} Store` : 'Premium Commerce Store';
+  if (type === 'SaaS') return cleaned ? `${toTitleCase(cleaned)} Platform` : 'AI SaaS Platform';
+
+  return cleaned ? `${toTitleCase(cleaned)} ${selectedPageType.replace(' page', '')}` : 'Premium Generated Website';
+};
+
+const toTitleCase = (value = '') =>
+  value.replace(/\w\S*/g, (word) => word.charAt(0).toUpperCase() + word.slice(1));
+
+const getLocalSections = (type, selectedPageType = 'Landing page') => {
+  if (selectedPageType === 'Login page') {
+    return ['Sign-in panel', 'Social login', 'Password recovery', 'Trust badges'];
+  }
+
   const sectionMap = {
     Restaurant: ['Signature menu', 'Instant reservation', 'Chef story', 'Guest reviews'],
     Fitness: ['Trainer programs', 'Plan comparison', 'BMI calculator', 'Class schedule'],
@@ -238,6 +311,48 @@ const getLocalSections = (type) => {
   };
 
   return sectionMap[type] || sectionMap.Website;
+};
+
+const getCommandIntent = (request = '') => {
+  const lower = request.toLowerCase();
+  const colorMatches = [
+    'purple',
+    'blue',
+    'green',
+    'red',
+    'pink',
+    'orange',
+    'yellow',
+    'black',
+    'white'
+  ];
+  const requestedColor = colorMatches.find((color) => lower.includes(color));
+
+  return {
+    transparentNav: lower.includes('transparent navbar') || lower.includes('navbar transparent'),
+    pricing: lower.includes('pricing') || lower.includes('plans'),
+    contact: lower.includes('contact'),
+    animations: lower.includes('animation') || lower.includes('animated'),
+    dashboard: lower.includes('dashboard'),
+    login: lower.includes('login') || lower.includes('sign in'),
+    requestedColor
+  };
+};
+
+const getColorOverride = (color) => {
+  const colors = {
+    purple: ['#a855f7', '#22d3ee'],
+    blue: ['#2563eb', '#38bdf8'],
+    green: ['#22c55e', '#5eead4'],
+    red: ['#ef4444', '#fb7185'],
+    pink: ['#ec4899', '#f0abfc'],
+    orange: ['#f97316', '#facc15'],
+    yellow: ['#facc15', '#fb923c'],
+    black: ['#ffffff', '#a1a1aa'],
+    white: ['#2563eb', '#14b8a6']
+  };
+
+  return colors[color];
 };
 
 const getPremiumHeroCopy = (type) => {
@@ -386,10 +501,53 @@ const getPremiumWorkflow = (type) => {
   );
 };
 
-const createLocalGeneratedSite = (request, selectedStyle, selectedTheme, selectedPageType) => {
+const createPricingHtml = () => `
+  <section class="pricing-band">
+    <div>
+      <span class="pill">Pricing</span>
+      <h2>Plans built for launch</h2>
+    </div>
+    <div class="price-grid">
+      <article><span>Starter</span><h3>$0</h3><p>Validate the idea with a polished free experience.</p></article>
+      <article><span>Pro</span><h3>$29</h3><p>Unlock premium workflows, exports, and advanced sections.</p></article>
+      <article><span>Team</span><h3>$99</h3><p>Collaborate, review, and ship production-ready pages faster.</p></article>
+    </div>
+  </section>`;
+
+const createContactHtml = () => `
+  <section class="contact-band">
+    <div>
+      <span class="pill">Contact</span>
+      <h2>Ready to start?</h2>
+      <p>Send a message, book a call, or connect the generated form to your backend.</p>
+    </div>
+    <form>
+      <input placeholder="Name" />
+      <input placeholder="Email" />
+      <button type="button">Send request</button>
+    </form>
+  </section>`;
+
+const createLocalGeneratedSite = (
+  request,
+  selectedStyle,
+  selectedTheme,
+  selectedPageType,
+  selectedIndustry
+) => {
+  const type = resolveGenerationType(request, selectedIndustry, selectedPageType);
+  const intent = getCommandIntent(request);
+  const title = humanizePromptTitle(request, type, selectedPageType);
+  const safeTitle = escapeMarkup(title);
   const safeRequest = escapeMarkup(request || 'Create a modern website');
-  const type = getPromptType(request);
-  const sections = getLocalSections(type);
+  const commandSections = [
+    intent.pricing ? 'Plan comparison' : '',
+    intent.contact ? 'Contact flow' : '',
+    intent.animations ? 'Motion system' : '',
+    intent.dashboard ? 'Dashboard preview' : '',
+    intent.login ? 'Authentication flow' : ''
+  ].filter(Boolean);
+  const sections = [...new Set([...getLocalSections(type, selectedPageType), ...commandSections])];
   const paletteMap = {
     'Apple Style': ['#f8fbff', '#dbeafe', '#111827'],
     'Framer Style': ['#a78bfa', '#22d3ee', '#080810'],
@@ -401,7 +559,21 @@ const createLocalGeneratedSite = (request, selectedStyle, selectedTheme, selecte
     'Minimal SaaS': ['#5eead4', '#93c5fd', '#08111f'],
     'Gaming UI': ['#a3e635', '#38bdf8', '#061018']
   };
-  const [accent, accentTwo, background] =
+  const themePaletteMap = {
+    Light: ['#2563eb', '#14b8a6', '#f8fafc', '#0f172a', '#475569'],
+    Dark: null,
+    Cyberpunk: ['#ff2bd6', '#00f5ff', '#07020f', '#f8e7ff', '#c4b5fd'],
+    Luxury: ['#d6a84f', '#f6df9d', '#080604', '#f7ead2', '#d6c6aa'],
+    Neon: ['#00ffbf', '#38bdf8', '#050816', '#eaffff', '#a7f3d0'],
+    Glassmorphism: ['#67e8f9', '#c4b5fd', '#08111f', '#f8fbff', '#c7d2e5'],
+    Retro: ['#ff7a3d', '#38bdf8', '#1f120c', '#ffe4b5', '#f7c99e']
+  };
+  const colorOverride = getColorOverride(intent.requestedColor);
+  const [accent, accentTwo, background, textColor = '#f8fbff', mutedColor = '#c7d2e5'] =
+    colorOverride
+      ? [...colorOverride, selectedTheme === 'Light' ? '#f8fafc' : '#070a12', selectedTheme === 'Light' ? '#0f172a' : '#f8fbff', selectedTheme === 'Light' ? '#475569' : '#c7d2e5']
+      :
+    themePaletteMap[selectedTheme] ||
     paletteMap[selectedStyle] || paletteMap['Minimal SaaS'];
   const cards = sections
     .map(
@@ -425,34 +597,41 @@ const createLocalGeneratedSite = (request, selectedStyle, selectedTheme, selecte
   const workflow = getPremiumWorkflow(type)
     .map((item) => `<li>${escapeMarkup(item)}</li>`)
     .join('');
+  const pricingHtml =
+    intent.pricing || selectedPageType === 'Pricing page' ? createPricingHtml() : '';
+  const contactHtml = intent.contact ? createContactHtml() : '';
+  const navBackground = intent.transparentNav
+    ? 'background: transparent; border: 1px solid rgba(255,255,255,.12); padding: 14px 16px; border-radius: 18px;'
+    : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="${safeRequest}" />
-  <title>${escapeMarkup(type)} Generated Site</title>
+  <meta name="description" content="${safeTitle}" />
+  <title>${safeTitle}</title>
   <style>
     * { box-sizing: border-box; }
-    :root { --accent: ${accent}; --accent-two: ${accentTwo}; --bg: ${background}; }
+    :root { --accent: ${accent}; --accent-two: ${accentTwo}; --bg: ${background}; --text: ${textColor}; --muted: ${mutedColor}; }
     body {
       margin: 0;
       font-family: Inter, system-ui, sans-serif;
-      color: #f8fbff;
+      color: var(--text);
       background:
         radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent) 32%, transparent), transparent 30%),
         radial-gradient(circle at 88% 5%, color-mix(in srgb, var(--accent-two) 28%, transparent), transparent 28%),
         linear-gradient(135deg, var(--bg), #111827 52%, #050816);
     }
+    body.light { --bg: #f8fafc; --text: #0f172a; --muted: #475569; background: linear-gradient(135deg, #ffffff, #eef6ff); }
     .wrap { width: min(1160px, calc(100% - 32px)); margin: auto; }
     header { min-height: 92vh; display: grid; align-items: center; padding: 34px 0 18px; }
-    nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 72px; }
+    nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 72px; ${navBackground} }
     .logo { font-size: 22px; font-weight: 900; }
     .pill { display: inline-flex; padding: 10px 13px; border: 1px solid rgba(255,255,255,.16); border-radius: 999px; background: rgba(255,255,255,.08); color: var(--accent); font-weight: 900; }
     .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: end; }
     h1 { max-width: 860px; margin: 18px 0; font-size: clamp(48px, 8vw, 96px); line-height: .94; letter-spacing: 0; }
-    .lead { max-width: 760px; color: #c7d2e5; font-size: 20px; line-height: 1.7; }
+    .lead { max-width: 760px; color: var(--muted); font-size: 20px; line-height: 1.7; }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
     a, button { border: 0; border-radius: 999px; padding: 15px 22px; background: linear-gradient(90deg, var(--accent), var(--accent-two)); color: #041018; text-decoration: none; font-weight: 900; cursor: pointer; }
     button.secondary, a.secondary { border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.08); color: white; }
@@ -466,20 +645,26 @@ const createLocalGeneratedSite = (request, selectedStyle, selectedTheme, selecte
     .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 42px 0 18px; }
     .metric { padding: 18px; border: 1px solid rgba(255,255,255,.13); border-radius: 18px; background: rgba(255,255,255,.08); }
     .metric strong { display: block; font-size: 32px; }
-    .metric span { color: #a8b6cc; }
+    .metric span { color: var(--muted); }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; padding: 0 0 64px; }
     article { min-height: 210px; padding: 24px; border: 1px solid rgba(255,255,255,.13); border-radius: 16px; background: rgba(255,255,255,.08); backdrop-filter: blur(16px); transition: transform .25s ease, border-color .25s ease; }
     article:hover { transform: translateY(-8px); border-color: color-mix(in srgb, var(--accent) 65%, transparent); }
     article span { color: var(--accent); font-size: 12px; font-weight: 900; text-transform: uppercase; }
     article h3 { margin: 18px 0 10px; font-size: 26px; }
-    article p { margin: 0; color: #c7d2e5; line-height: 1.65; }
+    article p { margin: 0; color: var(--muted); line-height: 1.65; }
     .workflow { margin: 0 0 64px; padding: 28px; border: 1px solid rgba(255,255,255,.13); border-radius: 20px; background: rgba(0,0,0,.2); }
     .workflow h2 { margin: 0 0 16px; font-size: 32px; }
     .workflow ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; padding: 0; margin: 0; list-style: none; }
     .workflow li { padding: 16px; border-radius: 14px; background: rgba(255,255,255,.08); color: #dbeafe; }
     .strip { margin-bottom: 18px; padding: 18px; border-radius: 16px; background: color-mix(in srgb, var(--accent) 18%, transparent); color: #dffefa; }
+    .pricing-band, .contact-band { margin: 0 0 64px; padding: 28px; border: 1px solid rgba(255,255,255,.13); border-radius: 22px; background: rgba(255,255,255,.07); }
+    .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-top: 18px; }
+    .contact-band { display: grid; grid-template-columns: 1fr 360px; gap: 20px; align-items: end; }
+    .contact-band form { display: grid; gap: 12px; }
+    .contact-band input { min-height: 50px; border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 0 14px; background: rgba(255,255,255,.08); color: var(--text); }
+    ${intent.animations ? 'article, .metric, .showcase { animation: floatIn .7s ease both; } @keyframes floatIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }' : ''}
     @media (max-width: 920px) { .hero-grid { grid-template-columns: 1fr; } .metrics { grid-template-columns: 1fr; } }
-    @media (max-width: 760px) { nav, .actions { align-items: stretch; flex-direction: column; } a, button { width: 100%; text-align: center; } }
+    @media (max-width: 760px) { nav, .actions, .contact-band { align-items: stretch; grid-template-columns: 1fr; flex-direction: column; } a, button { width: 100%; text-align: center; } }
   </style>
 </head>
 <body>
@@ -492,11 +677,11 @@ const createLocalGeneratedSite = (request, selectedStyle, selectedTheme, selecte
       <span class="pill">${escapeMarkup(selectedPageType)} • ${escapeMarkup(type)}</span>
       <div class="hero-grid">
         <div>
-          <h1>${safeRequest}</h1>
+          <h1>${safeTitle}</h1>
           <p class="lead">${escapeMarkup(getPremiumHeroCopy(type))}</p>
           <div class="actions">
-            <a href="#sections">Explore sections</a>
-            <button class="secondary" onclick="document.body.classList.toggle('light')">Transform theme</button>
+            <button type="button" onclick="document.getElementById('sections')?.scrollIntoView({ behavior: 'smooth', block: 'start' })">Explore sections</button>
+            <button type="button" class="secondary" onclick="document.body.classList.toggle('light')">Transform theme</button>
           </div>
         </div>
         <aside class="showcase">
@@ -514,8 +699,10 @@ const createLocalGeneratedSite = (request, selectedStyle, selectedTheme, selecte
     </div>
   </header>
   <main class="wrap">
-    <div class="strip">Premium fallback is active, so every prompt still creates a polished, usable preview even if the cloud model is slow or empty.</div>
+    <div class="strip">Generated from prompt: ${safeRequest}. All builder options are applied: style, theme, industry, and page type.</div>
     <section class="grid" id="sections">${cards}</section>
+    ${pricingHtml}
+    ${contactHtml}
     <section class="workflow">
       <h2>Built-in launch flow</h2>
       <ol>${workflow}</ol>
@@ -529,6 +716,254 @@ const createLocalGeneratedSite = (request, selectedStyle, selectedTheme, selecte
         card.style.opacity = '1';
         card.style.transform = 'translateY(0)';
       }, index * 90);
+    });
+  </script>
+</body>
+</html>`;
+};
+
+const readFileAsDataUrl = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Could not read the screenshot.'));
+    reader.readAsDataURL(file);
+  });
+
+const toHex = (value) => value.toString(16).padStart(2, '0');
+
+const analyzeScreenshot = async (file) => {
+  const dataUrl = await readFileAsDataUrl(file);
+
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+      const sampleSize = 24;
+      canvas.width = sampleSize;
+      canvas.height = sampleSize;
+      context.drawImage(image, 0, 0, sampleSize, sampleSize);
+
+      const pixels = context.getImageData(0, 0, sampleSize, sampleSize).data;
+      let red = 0;
+      let green = 0;
+      let blue = 0;
+      let brightRed = 0;
+      let brightGreen = 0;
+      let brightBlue = 0;
+      let brightCount = 0;
+
+      for (let index = 0; index < pixels.length; index += 4) {
+        const r = pixels[index];
+        const g = pixels[index + 1];
+        const b = pixels[index + 2];
+        red += r;
+        green += g;
+        blue += b;
+
+        if (r + g + b > 260) {
+          brightRed += r;
+          brightGreen += g;
+          brightBlue += b;
+          brightCount += 1;
+        }
+      }
+
+      const count = pixels.length / 4;
+      const average = [
+        Math.round(red / count),
+        Math.round(green / count),
+        Math.round(blue / count)
+      ];
+      const brightAverage = brightCount
+        ? [
+            Math.round(brightRed / brightCount),
+            Math.round(brightGreen / brightCount),
+            Math.round(brightBlue / brightCount)
+          ]
+        : [94, 234, 212];
+      const toColor = ([r, g, b]) => `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+
+      resolve({
+        dataUrl,
+        fileName: file.name,
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+        orientation: image.naturalWidth >= image.naturalHeight ? 'wide' : 'tall',
+        baseColor: toColor(average),
+        accent: toColor(brightAverage),
+        accentTwo: '#38bdf8'
+      });
+    };
+    image.onerror = () => {
+      resolve({
+        dataUrl,
+        fileName: file.name,
+        width: 0,
+        height: 0,
+        orientation: 'unknown',
+        baseColor: '#0f172a',
+        accent: '#5eead4',
+        accentTwo: '#38bdf8'
+      });
+    };
+    image.src = dataUrl;
+  });
+};
+
+const createScreenshotRemixSite = (
+  request,
+  selectedStyle,
+  selectedTheme,
+  selectedPageType,
+  selectedIndustry,
+  screenshotProfile
+) => {
+  const type = resolveGenerationType(request, selectedIndustry, selectedPageType);
+  const title = humanizePromptTitle(request, type, selectedPageType);
+  const safeTitle = escapeMarkup(title);
+  const safeRequest = escapeMarkup(request || 'Screenshot remix website');
+  const sections = [
+    'Screenshot layout analysis',
+    ...getLocalSections(type, selectedPageType),
+    'Responsive remix',
+    'Export-ready build'
+  ].slice(0, 7);
+  const cards = sections
+    .map(
+      (section, index) => `
+        <article>
+          <span>0${index + 1} / Remix</span>
+          <h3>${escapeMarkup(section)}</h3>
+          <p>${escapeMarkup(getPremiumSectionCopy(type, section))}</p>
+        </article>`
+    )
+    .join('');
+  const previewCards = getLocalSections(type, selectedPageType)
+    .slice(0, 4)
+    .map((section) => `<div><strong>${escapeMarkup(section)}</strong><span>${escapeMarkup(type)}</span></div>`)
+    .join('');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="${safeTitle}" />
+  <title>${safeTitle}</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --accent: ${screenshotProfile.accent};
+      --accent-two: ${screenshotProfile.accentTwo};
+      --base: ${screenshotProfile.baseColor};
+      --text: #f8fbff;
+      --muted: #cbd5e1;
+    }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% 8%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 26%),
+        radial-gradient(circle at 86% 12%, color-mix(in srgb, var(--accent-two) 24%, transparent), transparent 28%),
+        linear-gradient(135deg, color-mix(in srgb, var(--base) 45%, #050816), #070a12 54%, #020617);
+    }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: auto; }
+    header { min-height: 94vh; display: grid; align-items: center; padding: 34px 0; }
+    nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 58px; }
+    .logo { font-size: 22px; font-weight: 950; }
+    .pill { display: inline-flex; padding: 10px 13px; border: 1px solid rgba(255,255,255,.16); border-radius: 999px; background: rgba(255,255,255,.08); color: var(--accent); font-weight: 900; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 460px); gap: 28px; align-items: center; }
+    h1 { max-width: 820px; margin: 18px 0; font-size: clamp(46px, 7vw, 92px); line-height: .94; letter-spacing: 0; }
+    .lead { max-width: 720px; color: var(--muted); font-size: 20px; line-height: 1.7; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    button { min-height: 52px; border: 0; border-radius: 999px; padding: 0 22px; background: linear-gradient(90deg, var(--accent), var(--accent-two)); color: #031014; font-weight: 900; cursor: pointer; }
+    button.secondary { border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.08); color: white; }
+    .reference { padding: 18px; border: 1px solid rgba(255,255,255,.15); border-radius: 24px; background: rgba(255,255,255,.08); box-shadow: 0 30px 90px rgba(0,0,0,.38); backdrop-filter: blur(18px); }
+    .remix-screen { min-height: 360px; overflow: hidden; border-radius: 18px; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.92); color: #111827; }
+    .remix-top { display: grid; grid-template-columns: 1fr 120px 44px; gap: 10px; align-items: center; padding: 14px; border-bottom: 1px solid #e5e7eb; }
+    .remix-top strong { color: #111827; }
+    .remix-search { height: 34px; border-radius: 999px; background: #f1f5f9; }
+    .remix-avatar { width: 34px; height: 34px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-two)); }
+    .remix-body { display: grid; grid-template-columns: 112px 1fr; min-height: 304px; }
+    .remix-side { padding: 14px 10px; background: #111827; display: grid; align-content: start; gap: 9px; }
+    .remix-side span { height: 28px; border-radius: 8px; background: rgba(255,255,255,.12); }
+    .remix-side span:first-child { background: var(--accent); }
+    .remix-main { padding: 14px; background: linear-gradient(135deg, #f8fafc, #eef2ff); }
+    .remix-hero { display: grid; grid-template-columns: 1fr 86px; gap: 12px; min-height: 94px; margin-bottom: 12px; padding: 14px; border-radius: 16px; background: #ffffff; box-shadow: 0 14px 35px rgba(15,23,42,.08); }
+    .remix-hero h2 { margin: 0 0 8px; font-size: 20px; color: #111827; }
+    .remix-hero p { margin: 0; color: #64748b; font-size: 12px; line-height: 1.5; }
+    .remix-mark { border-radius: 18px; background: linear-gradient(135deg, var(--accent), var(--accent-two)); }
+    .remix-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .remix-grid div { min-height: 82px; padding: 12px; border-radius: 14px; background: #ffffff; box-shadow: 0 12px 30px rgba(15,23,42,.07); }
+    .remix-grid strong { display: block; font-size: 13px; color: #111827; }
+    .remix-grid span { display: block; margin-top: 16px; color: #64748b; font-size: 11px; }
+    .strip { margin: 18px 0; padding: 18px; border-radius: 16px; background: color-mix(in srgb, var(--accent) 18%, transparent); color: #eaffff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; padding: 18px 0 70px; }
+    article { min-height: 210px; padding: 24px; border: 1px solid rgba(255,255,255,.13); border-radius: 16px; background: rgba(255,255,255,.08); backdrop-filter: blur(16px); transition: transform .25s ease, border-color .25s ease; }
+    article:hover { transform: translateY(-8px); border-color: color-mix(in srgb, var(--accent) 65%, transparent); }
+    article span { color: var(--accent); font-size: 12px; font-weight: 900; text-transform: uppercase; }
+    article h3 { margin: 18px 0 10px; font-size: 25px; }
+    article p { margin: 0; color: var(--muted); line-height: 1.65; }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } nav, .actions { align-items: stretch; flex-direction: column; } button { width: 100%; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav>
+        <div class="logo">ProjectMaker AI</div>
+        <div class="pill">${escapeMarkup(selectedStyle)} • ${escapeMarkup(selectedTheme)}</div>
+      </nav>
+      <div class="hero">
+        <div>
+          <span class="pill">Screenshot remix • ${escapeMarkup(type)}</span>
+          <h1>${safeTitle}</h1>
+          <p class="lead">A premium website remix generated from your uploaded screenshot and prompt. The layout, color mood, visual rhythm, and responsive sections are adapted into an export-ready single-file page.</p>
+          <div class="actions">
+            <button type="button" onclick="document.getElementById('sections')?.scrollIntoView({ behavior: 'smooth', block: 'start' })">Explore sections</button>
+            <button type="button" class="secondary" onclick="document.body.classList.toggle('focus')">Remix mood</button>
+          </div>
+        </div>
+        <aside class="reference">
+          <div class="remix-screen" aria-label="Recreated website layout from uploaded screenshot">
+            <div class="remix-top">
+              <strong>${safeTitle}</strong>
+              <div class="remix-search"></div>
+              <div class="remix-avatar"></div>
+            </div>
+            <div class="remix-body">
+              <div class="remix-side"><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="remix-main">
+                <div class="remix-hero">
+                  <div>
+                    <h2>Premium ${escapeMarkup(type)} hub</h2>
+                    <p>Recreated from the uploaded screenshot structure with cleaner spacing, stronger hierarchy, and launch-ready sections.</p>
+                  </div>
+                  <div class="remix-mark"></div>
+                </div>
+                <div class="remix-grid">${previewCards}</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="strip">Generated from prompt: ${safeRequest}. Screenshot-to-website mode recreated the visual structure as a polished, responsive website.</div>
+    <section class="grid" id="sections">${cards}</section>
+  </main>
+  <script>
+    document.querySelectorAll('article').forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(18px)';
+      setTimeout(() => {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, index * 85);
     });
   </script>
 </body>
@@ -595,12 +1030,40 @@ ${extraInstruction || 'No extra edit yet.'}
   };
 
   const generateWebsite = async (extraInstruction = '') => {
-    if (!prompt.trim() && !extraInstruction.trim()) return;
+    if (!prompt.trim() && !extraInstruction.trim() && !screenshot) return;
+    const effectivePrompt = [prompt, extraInstruction]
+      .filter((item) => item && item.trim())
+      .join('\nCommand: ');
 
     try {
       setLoading(true);
       setErrorMessage('');
       setStatusMessage('Connecting to the AI builder...');
+
+      if (screenshot) {
+        setStatusMessage('Reading screenshot and building a visual remix...');
+        const screenshotProfile = await analyzeScreenshot(screenshot);
+        const screenshotHtml = createScreenshotRemixSite(
+          effectivePrompt || `Remix ${screenshot.name} into a premium website`,
+          style,
+          theme,
+          pageType,
+          industry,
+          screenshotProfile
+        );
+
+        setSiteHtml(screenshotHtml);
+        setStatusMessage('Screenshot converted into a premium remix preview.');
+
+        window.setTimeout(() => {
+          resultRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 120);
+
+        return;
+      }
 
       const response = await api.post('/ai/generate', {
         prompt: buildEnhancedPrompt(extraInstruction)
@@ -613,11 +1076,17 @@ ${extraInstruction || 'No extra edit yet.'}
         responsePayload?.website ||
         (typeof responsePayload === 'string' ? responsePayload : '');
       let cleaned = cleanCode(rawHtml);
+      const backendUsedFallback = Boolean(responsePayload?.warning);
 
-      if (!cleaned || !hasVisibleHtml(cleaned)) {
-        cleaned = prompt.toLowerCase().includes('weather')
-          ? createLocalWeatherSite(prompt)
-          : createLocalGeneratedSite(prompt, style, theme, pageType);
+      if (
+        backendUsedFallback ||
+        !cleaned ||
+        !hasVisibleHtml(cleaned) ||
+        isLowQualityGeneratedHtml(cleaned)
+      ) {
+        cleaned = effectivePrompt.toLowerCase().includes('weather')
+          ? createLocalWeatherSite(effectivePrompt)
+          : createLocalGeneratedSite(effectivePrompt, style, theme, pageType, industry);
       }
 
       if (!cleaned) {
