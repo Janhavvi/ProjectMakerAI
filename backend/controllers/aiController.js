@@ -659,6 +659,15 @@ const generateWebsite = async (req, res) => {
       });
     }
 
+    if (prompt.toLowerCase().includes('weather')) {
+      return res.json({
+        success: true,
+        data: createFallbackWebsite(prompt),
+        warning:
+          'ProjectMaker generated a working weather app locally for faster preview.'
+      });
+    }
+
     if (!process.env.NVIDIA_NIM_API_KEY) {
       return res.status(500).json({
         success: false,
