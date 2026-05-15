@@ -166,6 +166,30 @@ input[type='file']:focus {
   transform: translateY(-2px);
 }
 
+.generate-btn:disabled {
+  cursor: wait;
+  opacity: 0.82;
+  transform: none;
+}
+
+.generator-message {
+  margin-top: 16px;
+  padding: 13px 15px;
+  border: 1px solid rgba(94, 234, 212, 0.35);
+  border-radius: 10px;
+  background: rgba(94, 234, 212, 0.11);
+  color: #bffff8;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.generator-message.error {
+  border-color: rgba(248, 113, 113, 0.45);
+  background: rgba(248, 113, 113, 0.12);
+  color: #fecaca;
+}
+
 .settings-panel {
   display: grid;
   gap: 22px;

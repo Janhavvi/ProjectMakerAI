@@ -1,6 +1,6 @@
 // src/pages/GeneratorPage.jsx
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import api from '../services/api';
 import Loader from '../components/common/Loader';
 import './GeneratorPage.css';
@@ -91,6 +91,9 @@ function GeneratorPage() {
   const [loading, setLoading] = useState(false);
   const [listening, setListening] = useState(false);
   const [siteHtml, setSiteHtml] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const resultRef = useRef(null);
 
   const selectedIndustry = useMemo(
     () => industries.find((item) => item.name === industry) || industries[0],
@@ -140,16 +143,38 @@ ${extraInstruction || 'No extra edit yet.'}
 
     try {
       setLoading(true);
+      setErrorMessage('');
+      setStatusMessage('Connecting to the AI builder...');
 
       const response = await api.post('/ai/generate', {
         prompt: buildEnhancedPrompt(extraInstruction)
       });
 
       const cleaned = cleanCode(response.data.data || '');
+
+      if (!cleaned) {
+        throw new Error('The backend returned an empty website.');
+      }
+
       setSiteHtml(cleaned);
+      setStatusMessage(
+        response.data.warning || 'Website generated. Opening preview below.'
+      );
+
+      window.setTimeout(() => {
+        resultRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 120);
     } catch (error) {
       console.log(error);
-      alert(error.response?.data?.message || 'Website generation failed');
+      setErrorMessage(
+        error.response?.data?.message ||
+          error.message ||
+          'Website generation failed. Please try again.'
+      );
+      setStatusMessage('');
     } finally {
       setLoading(false);
     }
@@ -248,7 +273,12 @@ ${extraInstruction || 'No extra edit yet.'}
             />
 
             <div className="builder-actions">
-              <button className="generate-btn" onClick={() => generateWebsite()}>
+              <button
+                className="generate-btn"
+                type="button"
+                disabled={loading}
+                onClick={() => generateWebsite()}
+              >
                 {loading ? 'Generating...' : 'Generate Website'}
               </button>
 
@@ -256,6 +286,12 @@ ${extraInstruction || 'No extra edit yet.'}
                 {listening ? 'Listening...' : 'Voice Prompt'}
               </button>
             </div>
+
+            {(statusMessage || errorMessage) && (
+              <div className={errorMessage ? 'generator-message error' : 'generator-message'}>
+                {errorMessage || statusMessage}
+              </div>
+            )}
           </div>
 
           <div className="settings-panel">
@@ -329,7 +365,7 @@ ${extraInstruction || 'No extra edit yet.'}
         {loading && <Loader />}
 
         {siteHtml && (
-          <section className="result-section">
+          <section className="result-section" ref={resultRef}>
             <div className="preview-toolbar">
               <div>
                 <span className="toolbar-label">Multi-device live preview</span>
