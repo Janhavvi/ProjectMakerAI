@@ -12,7 +12,7 @@ import CTA from '../components/landing/CTA';
 
 function LandingPage() {
   return (
-    <div id="features">
+    <div>
 
       <Navbar />
 

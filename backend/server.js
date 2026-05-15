@@ -28,6 +28,20 @@ app.use('/api/ai', require('./routes/aiRoutes'));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.log(
+      `Port ${PORT} is already in use. The backend is probably already running.`
+    );
+    console.log(
+      'Stop the existing backend process before starting another one, or change PORT in backend/.env.'
+    );
+    process.exit(1);
+  }
+
+  throw error;
 });
