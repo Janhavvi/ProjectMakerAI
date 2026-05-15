@@ -669,9 +669,11 @@ const generateWebsite = async (req, res) => {
     }
 
     if (!process.env.NVIDIA_NIM_API_KEY) {
-      return res.status(500).json({
-        success: false,
-        message: 'NVIDIA_NIM_API_KEY is missing in backend/.env'
+      return res.json({
+        success: true,
+        data: createFallbackWebsite(prompt),
+        warning:
+          'NVIDIA_NIM_API_KEY is missing, so ProjectMaker generated a local website preview.'
       });
     }
 
@@ -701,15 +703,26 @@ const generateWebsite = async (req, res) => {
     );
 
     if (!response.ok) {
-      return res.status(response.status).json({
-        success: false,
-        message: response.text
+      return res.json({
+        success: true,
+        data: createFallbackWebsite(prompt),
+        warning:
+          'The AI provider returned an error, so ProjectMaker generated a local website preview.'
       });
     }
 
     const data = JSON.parse(response.text);
 
     const html = cleanHtml(data.choices?.[0]?.message?.content || '');
+
+    if (!html) {
+      return res.json({
+        success: true,
+        data: createFallbackWebsite(prompt),
+        warning:
+          'The AI provider returned empty content, so ProjectMaker generated a local website preview.'
+      });
+    }
 
     res.json({
       success: true,
@@ -739,9 +752,11 @@ const generateWebsite = async (req, res) => {
       });
     }
 
-    res.status(500).json({
-      success: false,
-      message: 'AI generation failed'
+    res.json({
+      success: true,
+      data: createFallbackWebsite(prompt),
+      warning:
+        'AI generation failed, so ProjectMaker generated a local website preview.'
     });
   }
 };
