@@ -1,0 +1,58 @@
+/* src/components/dashboard/Sidebar.css */
+
+.sidebar {
+  width: 260px;
+
+  min-height: 100vh;
+
+  padding: 35px 20px;
+
+  background: rgba(255,255,255,0.03);
+
+  border-right:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-logo {
+  font-size: 28px;
+  font-weight: 700;
+
+  margin-bottom: 50px;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #8f8fff,
+    #00d4ff
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+
+  list-style: none;
+}
+
+.sidebar-menu li {
+  padding: 16px 20px;
+
+  border-radius: 14px;
+
+  color: #c4c4d0;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.sidebar-menu li:hover {
+  background: rgba(255,255,255,0.05);
+
+  color: white;
+}

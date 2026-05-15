@@ -1,0 +1,191 @@
+/* src/index.css */
+
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Root Variables */
+:root {
+  --primary-color: #6c63ff;
+  --secondary-color: #00d4ff;
+  --background-color: #080810;
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-color: #ffffff;
+  --text-secondary: #b5b5c3;
+
+  --transition: 0.3s ease;
+  --radius: 20px;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Body Styling */
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--background-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Anchor Tags */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Images */
+img {
+  width: 100%;
+  display: block;
+}
+
+/* Buttons */
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  outline: none;
+  border: none;
+  font-family: inherit;
+}
+
+/* Lists */
+ul {
+  list-style: none;
+}
+
+/* Container Utility */
+.container {
+  width: 90%;
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* Gradient Background */
+.gradient-bg {
+  background:
+    radial-gradient(circle at top left, #1d1d3d, transparent 40%),
+    radial-gradient(circle at bottom right, #101025, transparent 40%),
+    #080810;
+}
+
+/* Glassmorphism Utility */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #8f8fff,
+    #00d4ff
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Smooth Animations */
+.transition {
+  transition: var(--transition);
+}
+
+/* Reusable Section */
+.section {
+  padding: 100px 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0d18;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    var(--primary-color),
+    var(--secondary-color)
+  );
+
+  border-radius: 20px;
+}
+
+/* Selection */
+::selection {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Responsive Typography */
+h1 {
+  font-size: 72px;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 48px;
+}
+
+h3 {
+  font-size: 28px;
+}
+
+p {
+  color: var(--text-secondary);
+  font-size: 18px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  h1 {
+    font-size: 52px;
+  }
+
+  h2 {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 70px 0;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  .container {
+    width: 95%;
+  }
+}

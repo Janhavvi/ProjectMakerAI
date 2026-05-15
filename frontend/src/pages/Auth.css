@@ -1,0 +1,122 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 20px;
+  background:
+    radial-gradient(circle at top, #1c1c40, transparent 45%),
+    #080810;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 45px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.auth-card h2 {
+  font-size: 42px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.auth-card p {
+  text-align: center;
+  color: #b8b8c8;
+  margin-bottom: 28px;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 15px;
+}
+
+.auth-card input::placeholder {
+  color: #9b9bae;
+}
+
+.auth-main-btn,
+.auth-card form button {
+  width: 100%;
+  padding: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #6c63ff, #00d4ff);
+  color: white;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.google-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 999px;
+  border: none;
+  background: white;
+  color: #111;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.google-btn span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
+  color: white;
+  display: grid;
+  place-items: center;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.auth-divider span {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.auth-divider p {
+  margin: 0;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.auth-bottom {
+  margin-top: 24px;
+}
+
+.auth-bottom a {
+  color: #00d4ff;
+  font-weight: 700;
+}
+.google-login-box {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
+}

@@ -1,0 +1,98 @@
+/* src/App.css */
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  background: #080810;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global Gradient Background */
+body {
+  background:
+    radial-gradient(circle at top left, #1f1f3d, transparent 40%),
+    radial-gradient(circle at bottom right, #101025, transparent 40%),
+    #080810;
+}
+
+/* Selection Color */
+::selection {
+  background: #6c63ff;
+  color: white;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0d18;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#6c63ff, #00d4ff);
+  border-radius: 20px;
+}
+
+/* Reusable Container */
+.container {
+  width: 90%;
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* Reusable Section Spacing */
+.section {
+  padding: 100px 0;
+}
+
+/* Reusable Glass Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(90deg, #ffffff, #8f8fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glow Button */
+.glow-button {
+  background: linear-gradient(90deg, #6c63ff, #00d4ff);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 0 20px rgba(108, 99, 255, 0.4);
+}
+
+.glow-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(108, 99, 255, 0.7);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section {
+    padding: 70px 0;
+  }
+
+  .container {
+    width: 95%;
+  }
+}

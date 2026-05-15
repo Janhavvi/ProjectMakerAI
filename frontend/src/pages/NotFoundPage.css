@@ -1,0 +1,60 @@
+/* src/pages/NotFoundPage.css */
+
+.notfound-page {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background:
+    radial-gradient(circle at top,
+    #1c1c40,
+    transparent 40%),
+    #080810;
+}
+
+.notfound-page h1 {
+  font-size: 140px;
+
+  margin-bottom: 20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6c63ff,
+      #00d4ff
+    );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.notfound-page p {
+  color: #b5b5c3;
+
+  margin-bottom: 30px;
+
+  font-size: 20px;
+}
+
+.notfound-page a {
+  padding: 14px 28px;
+
+  border-radius: 50px;
+
+  text-decoration: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6c63ff,
+      #00d4ff
+    );
+
+  color: white;
+}

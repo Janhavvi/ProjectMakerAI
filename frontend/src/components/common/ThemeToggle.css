@@ -1,0 +1,38 @@
+/* src/components/common/ThemeToggle.css */
+
+.theme-toggle {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 50%;
+
+  border: none;
+
+  background: rgba(255,255,255,0.08);
+
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 20px;
+
+  transition: 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: rotate(15deg) scale(1.05);
+
+  background: rgba(255,255,255,0.15);
+}
+
+/* Themes */
+
+.dark-theme {
+  background: #080810;
+  color: white;
+}
+
+.light-theme {
+  background: #f5f7ff;
+  color: #111;
+}

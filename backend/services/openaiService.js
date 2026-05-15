@@ -1,0 +1,28 @@
+// OpenAI Service
+// Handles all OpenAI API calls for content generation
+
+import { OpenAI } from 'openai';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+export const generateContent = async (prompt) => {
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4',
+      messages: [
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
+    });
+    return response.choices[0].message.content;
+  } catch (error) {
+    console.error('OpenAI Error:', error);
+    throw error;
+  }
+};
+
+export default { generateContent };

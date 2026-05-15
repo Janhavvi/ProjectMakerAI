@@ -1,0 +1,43 @@
+/* src/components/ai/ColorGenerator.css */
+
+.color-generator {
+  padding: 30px;
+
+  border-radius: 24px;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.color-generator h2 {
+  margin-bottom: 25px;
+}
+
+.color-palette {
+  display: flex;
+
+  gap: 15px;
+
+  margin-bottom: 25px;
+}
+
+.color-box {
+  flex: 1;
+
+  height: 140px;
+
+  border-radius: 18px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  padding-bottom: 15px;
+
+  color: white;
+
+  font-weight: 700;
+}

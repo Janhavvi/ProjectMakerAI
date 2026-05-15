@@ -1,0 +1,101 @@
+/* src/pages/PricingPage.css */
+
+.pricing-page {
+  min-height: 100vh;
+
+  padding: 120px 20px;
+
+  background:
+    radial-gradient(circle at top,
+    #1c1c40,
+    transparent 40%),
+    #080810;
+}
+
+.pricing-header {
+  text-align: center;
+
+  margin-bottom: 70px;
+}
+
+.pricing-header h1 {
+  font-size: 58px;
+
+  margin-bottom: 20px;
+}
+
+.pricing-header p {
+  color: #b5b5c3;
+}
+
+.pricing-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(300px, 1fr));
+
+  gap: 30px;
+}
+
+.pricing-card {
+  padding: 40px;
+
+  border-radius: 30px;
+
+  text-align: center;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  transition: 0.3s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-10px);
+
+  box-shadow:
+    0 0 40px rgba(108,99,255,0.18);
+}
+
+.pricing-card h2 {
+  margin-bottom: 20px;
+}
+
+.pricing-card h3 {
+  font-size: 48px;
+
+  margin-bottom: 30px;
+}
+
+.pricing-card ul {
+  list-style: none;
+
+  margin-bottom: 30px;
+}
+
+.pricing-card li {
+  margin-bottom: 14px;
+
+  color: #c4c4d0;
+}
+
+.pricing-card button {
+  padding: 14px 24px;
+
+  border: none;
+  border-radius: 50px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6c63ff,
+      #00d4ff
+    );
+
+  color: white;
+
+  cursor: pointer;
+}

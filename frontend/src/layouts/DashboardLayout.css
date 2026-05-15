@@ -1,0 +1,45 @@
+/* src/layouts/DashboardLayout.css */
+
+.dashboard-layout {
+  display: flex;
+
+  min-height: 100vh;
+
+  background: #080810;
+}
+
+.dashboard-sidebar {
+  width: 260px;
+
+  padding: 40px 20px;
+
+  background: rgba(255,255,255,0.03);
+
+  border-right:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.dashboard-sidebar h2 {
+  margin-bottom: 40px;
+}
+
+.dashboard-sidebar ul {
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.dashboard-sidebar li {
+  color: #c4c4d0;
+
+  cursor: pointer;
+}
+
+.dashboard-content {
+  flex: 1;
+
+  padding: 40px;
+}

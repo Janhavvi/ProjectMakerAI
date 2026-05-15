@@ -1,0 +1,45 @@
+/* src/components/editor/SidebarControls.css */
+
+.sidebar-controls {
+  display: flex;
+  flex-direction: column;
+
+  gap: 25px;
+}
+
+.sidebar-controls h2 {
+  margin-bottom: 10px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.control-group label {
+  color: #b5b5c3;
+}
+
+.control-group input {
+  width: 100%;
+}
+
+.sidebar-controls button {
+  padding: 14px;
+
+  border: none;
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6c63ff,
+      #00d4ff
+    );
+
+  color: white;
+
+  cursor: pointer;
+}

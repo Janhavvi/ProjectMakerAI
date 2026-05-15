@@ -1,0 +1,75 @@
+/* src/pages/SettingsPage.css */
+
+.settings-page {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  background:
+    radial-gradient(circle at top,
+    #1c1c40,
+    transparent 40%),
+    #080810;
+}
+
+.settings-card {
+  width: 100%;
+  max-width: 800px;
+
+  padding: 50px;
+
+  border-radius: 30px;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.settings-card h1 {
+  margin-bottom: 40px;
+
+  font-size: 48px;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 24px 0;
+
+  border-bottom:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.setting-item h3 {
+  margin-bottom: 8px;
+}
+
+.setting-item p {
+  color: #b5b5c3;
+}
+
+.setting-item button {
+  padding: 12px 22px;
+
+  border: none;
+  border-radius: 50px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6c63ff,
+      #00d4ff
+    );
+
+  color: white;
+
+  cursor: pointer;
+}

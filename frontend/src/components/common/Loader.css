@@ -1,0 +1,32 @@
+/* src/components/common/Loader.css */
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
+}
+
+.loader-circle {
+  width: 60px;
+  height: 60px;
+
+  border-radius: 50%;
+
+  border: 5px solid rgba(255,255,255,0.1);
+  border-top: 5px solid #6c63ff;
+
+  animation: spin 1s linear infinite;
+}
+
+.loader-container p {
+  color: #b5b5c3;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

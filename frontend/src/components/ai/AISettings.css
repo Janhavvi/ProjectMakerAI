@@ -1,0 +1,44 @@
+/* src/components/ai/AISettings.css */
+
+.ai-settings {
+  padding: 30px;
+
+  border-radius: 24px;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+}
+
+.ai-settings h2 {
+  margin-bottom: 25px;
+}
+
+.setting-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.setting-group label {
+  color: #b5b5c3;
+}
+
+.setting-group select {
+  padding: 14px;
+
+  border-radius: 14px;
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  background:
+    rgba(255,255,255,0.04);
+
+  color: white;
+}

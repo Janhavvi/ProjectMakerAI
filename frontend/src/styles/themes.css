@@ -1,0 +1,11 @@
+/* src/styles/themes.css */
+
+.dark-theme {
+  background: #080810;
+  color: white;
+}
+
+.light-theme {
+  background: #f7f7fb;
+  color: #111111;
+}
