@@ -3,6 +3,7 @@
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
+const { sendError } = require('../utils/apiResponse');
 
 const protect = async (req, res, next) => {
   let token;
@@ -30,18 +31,14 @@ const protect = async (req, res, next) => {
 
     } catch (error) {
 
-      return res.status(401).json({
-        message: 'Not authorized'
-      });
+      return sendError(res, 'Not authorized', 401);
     }
 
   }
 
   if (!token) {
 
-    return res.status(401).json({
-      message: 'No token provided'
-    });
+    return sendError(res, 'No token provided', 401);
   }
 };
 

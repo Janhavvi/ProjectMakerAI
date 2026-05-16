@@ -1,46 +1,254 @@
 /* src/layouts/EditorLayout.css */
 
+/* ============================================
+   PREMIUM EDITOR LAYOUT
+   ============================================ */
+
 .editor-layout {
   display: grid;
-
-  grid-template-columns:
-    320px 1fr;
-
+  grid-template-columns: 320px 1fr;
   min-height: 100vh;
-
-  background: #080810;
+  background: linear-gradient(
+    135deg,
+    var(--background-color) 0%,
+    var(--background-secondary) 50%,
+    var(--background-color) 100%
+  );
+  gap: 0;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out;
 }
+
+/* ========== EDITOR SIDEBAR ========== */
 
 .editor-sidebar {
-  border-right:
-    1px solid rgba(255,255,255,0.08);
-
-  background: rgba(255,255,255,0.03);
-
-  padding: 25px;
-
-  overflow-y: auto;
+  position: relative;
+  border-right: 1px solid rgba(0, 217, 255, 0.1);
+  background: rgba(11, 15, 35, 0.6);
+  backdrop-filter: blur(8px);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+  transition: all 0.3s ease;
+  animation: slideInLeft 0.5s ease-out;
 }
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  padding: var(--spacing-6);
+  border-bottom: 1px solid rgba(0, 217, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: var(--font-size-lg);
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.sidebar-close:hover {
+  color: var(--primary-color);
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+  background: rgba(0, 217, 255, 0.05);
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 217, 255, 0.2);
+  border-radius: 3px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 217, 255, 0.4);
+}
+
+/* ========== EDITOR PREVIEW ========== */
 
 .editor-preview {
-  padding: 30px;
-
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--background-color);
+  position: relative;
+  animation: fadeInUp 0.6s ease-out 0.1s both;
 }
 
-/* Responsive */
+.preview-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
 
-@media (max-width: 992px) {
+.preview-content::-webkit-scrollbar {
+  width: 12px;
+}
 
+.preview-content::-webkit-scrollbar-track {
+  background: rgba(0, 217, 255, 0.05);
+}
+
+.preview-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-color), var(--tertiary-color));
+  border-radius: 6px;
+}
+
+.preview-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--primary-light), var(--tertiary-light));
+}
+
+/* ========== EDITOR CONTROLS ========== */
+
+.editor-controls {
+  display: none;
+  position: fixed;
+  bottom: var(--spacing-6);
+  right: var(--spacing-6);
+  gap: var(--spacing-3);
+  z-index: 100;
+  animation: slideInFromBottom 0.4s ease-out;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn:hover {
+  background: rgba(0, 217, 255, 0.2);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.control-btn.active {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--background-color);
+  border-color: transparent;
+  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.4);
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .editor-layout {
+    grid-template-columns: 280px 1fr;
+  }
+
+  .sidebar-content {
+    padding: var(--spacing-4);
+  }
+
+  .preview-content {
+    padding: var(--spacing-6);
+  }
+}
+
+/* Mobile - Stacked Layout */
+@media (max-width: 768px) {
   .editor-layout {
     grid-template-columns: 1fr;
   }
 
   .editor-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    max-width: 100%;
     border-right: none;
-
-    border-bottom:
-      1px solid rgba(255,255,255,0.08);
+    border-bottom: none;
+    transform: translateX(-100%);
+    z-index: 999;
   }
 
+  .editor-sidebar.visible {
+    transform: translateX(0);
+  }
+
+  .editor-sidebar.hidden {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-close {
+    display: flex;
+  }
+
+  .editor-preview {
+    border-top: 1px solid rgba(0, 217, 255, 0.1);
+  }
+
+  .editor-controls {
+    display: flex;
+  }
+
+  .preview-content {
+    padding: var(--spacing-4);
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .preview-content {
+    padding: var(--spacing-3);
+  }
+
+  .sidebar-content {
+    padding: var(--spacing-3);
+  }
+
+  .editor-controls {
+    bottom: var(--spacing-4);
+    right: var(--spacing-4);
+  }
+
+  .control-btn {
+    width: 44px;
+    height: 44px;
+  }
 }

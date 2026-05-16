@@ -1,32 +1,36 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-const generationSchema = new mongoose.Schema({
-  projectId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Project',
-    required: true,
+const generationSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Project'
+    },
+    type: {
+      type: String,
+      enum: ['website', 'project', 'analysis', 'restyle', 'improvement'],
+      default: 'website'
+    },
+    prompt: {
+      type: String,
+      required: true
+    },
+    style: String,
+    projectType: String,
+    output: mongoose.Schema.Types.Mixed,
+    tokensUsed: {
+      type: Number,
+      default: 0
+    }
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  prompt: {
-    type: String,
-    required: true,
-  },
-  generatedContent: {
-    type: Object,
-  },
-  status: {
-    type: String,
-    enum: ['pending', 'completed', 'failed'],
-    default: 'pending',
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true
+  }
+);
 
-export default mongoose.model('Generation', generationSchema);
+module.exports = mongoose.model('Generation', generationSchema);

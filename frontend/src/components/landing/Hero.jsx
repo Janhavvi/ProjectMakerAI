@@ -1,95 +1,140 @@
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Button from '../common/Button';
 import './Hero.css';
 
 function Hero() {
-  const stylePills = [
-    'Apple',
-    'Framer',
-    'Vercel',
-    'Cyberpunk',
-    'Glass',
-    'Anime',
-    'Neo',
-    'SaaS',
-    'Gaming'
+  const tools = [
+    ['Website Generator', 'Prompt to responsive pages'],
+    ['Project Planner', 'Features, schema, APIs'],
+    ['Design Assistant', 'Restyle and improve UI'],
+    ['Saved Workspace', 'History, exports, favorites']
+  ];
+
+  const metrics = [
+    ['8', 'AI tools'],
+    ['500', 'starter credits'],
+    ['24/7', 'workspace']
   ];
 
   return (
     <section className="hero">
-      <div className="hero-grid-bg"></div>
+      <div className="hero-aurora" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div className="hero-noise" aria-hidden="true"></div>
 
       <motion.div
-        className="hero-content"
-        initial={{ opacity: 0, y: 80 }}
+        className="hero-shell"
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.65 }}
       >
-        <div className="hero-copy">
-          <span className="hero-badge">Prompt to site, screenshot clone, live edit, instant theme transform</span>
-
+        <motion.div
+          className="hero-left"
+          initial={{ opacity: 0, x: -24 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+        >
+          <span className="hero-badge">Premium account-based AI builder</span>
           <h1>
-            Build startup-level websites with an AI creation studio
+            Design, generate, and ship <span>polished websites</span> with AI.
           </h1>
-
           <p>
-            Turn a prompt, screenshot, URL, or voice idea into a full website, then transform
-            its style, sections, animations, SEO, exports, and device previews from one workspace.
+            Turn rough ideas into saved projects with generated pages, style upgrades,
+            live previews, analytics, and export-ready code.
           </p>
 
           <div className="hero-buttons">
-            <Link to="/generate" className="primary-btn">
-              Start Building
-            </Link>
-
-            <a href="#features" className="secondary-btn">
-              Explore Features
-            </a>
+            <Button to="/register" size="lg">Start workspace</Button>
+            <Button to="/login" variant="secondary" size="lg">Login</Button>
           </div>
-        </div>
+
+          <div className="hero-metrics">
+            {metrics.map(([value, label]) => (
+              <motion.div
+                key={label}
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 280, damping: 18 }}
+              >
+                <strong>{value}</strong>
+                <span>{label}</span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         <motion.div
-          className="hero-preview"
-          initial={{ opacity: 0, scale: 0.95, x: 40 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          aria-label="ProjectMaker AI builder preview"
+          className="hero-bento"
+          initial="hidden"
+          animate="show"
+          variants={{
+            hidden: {},
+            show: {
+              transition: { staggerChildren: 0.08, delayChildren: 0.18 }
+            }
+          }}
         >
-          <div className="preview-topbar">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+          <motion.div
+            className="bento-card command-card"
+            variants={{ hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -6 }}
+          >
+            <div className="command-card-top">
+              <span>AI command</span>
+              <em>Generating</em>
+            </div>
+            <h2>Create a polished fintech landing page with pricing, trust badges, and export-ready React.</h2>
+            <div className="command-bar">
+              <i></i>
+              <Button type="button" size="sm">Generate</Button>
+            </div>
+          </motion.div>
 
-          <div className="preview-body">
-            <aside className="preview-sidebar">
-              <span className="sidebar-label">AI Style Engine</span>
-              <div className="style-pill-list">
-                {stylePills.map((style) => (
-                  <span key={style}>{style}</span>
-                ))}
-              </div>
-            </aside>
-
-            <div className="preview-canvas">
-              <div className="canvas-nav"></div>
-              <div className="canvas-hero">
-                <span></span>
-                <strong>FitForge</strong>
-                <p>Fitness website rebuilt from prompt, voice, and screenshot</p>
-              </div>
-              <div className="canvas-sections">
+          <motion.div
+            className="bento-card preview-card"
+            variants={{ hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -6 }}
+          >
+            <div className="mini-top">
+              <span></span><span></span><span></span>
+            </div>
+            <div className="mini-preview">
+              <strong>NovaPay</strong>
+              <p>AI-generated SaaS homepage</p>
+              <div className="preview-graph">
                 <span></span>
                 <span></span>
                 <span></span>
               </div>
             </div>
+          </motion.div>
+
+          <div className="tool-grid">
+            {tools.map(([title, text]) => (
+              <motion.article
+                className="bento-card tool-card"
+                key={title}
+                variants={{ hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0 } }}
+                whileHover={{ x: 4, y: -3 }}
+              >
+                <span>{title}</span>
+                <p>{text}</p>
+              </motion.article>
+            ))}
           </div>
 
-          <div className="preview-command">
-            <span>Live edit</span>
-            <p>Make navbar transparent, add plans, switch to cyberpunk, export React.</p>
-          </div>
+          <motion.div
+            className="bento-card activity-card"
+            variants={{ hidden: { opacity: 0, y: 22 }, show: { opacity: 1, y: 0 } }}
+            whileHover={{ y: -6 }}
+          >
+            <span>Latest activity</span>
+            <p><strong></strong>Saved landing page to workspace</p>
+            <p><strong></strong>Design score improved to 86/100</p>
+            <p><strong></strong>Export ready: React + ZIP</p>
+          </motion.div>
         </motion.div>
       </motion.div>
     </section>

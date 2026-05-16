@@ -1,6 +1,7 @@
 // src/routes/ProtectedRoute.jsx
 
 import { Navigate } from 'react-router-dom';
+import WorkspaceTopbar from '../components/common/WorkspaceTopbar';
 
 function ProtectedRoute({ children }) {
 
@@ -11,7 +12,12 @@ function ProtectedRoute({ children }) {
     return <Navigate to="/login" />;
   }
 
-  return children;
+  return (
+    <>
+      <WorkspaceTopbar />
+      {children}
+    </>
+  );
 }
 
 export default ProtectedRoute;

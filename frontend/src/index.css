@@ -2,6 +2,16 @@
 
 /* Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('./styles/designSystem.css');
+@import url('./styles/animations.css');
+@import url('./layouts/MainLayout.css');
+@import url('./components/layout/Container.css');
+@import url('./components/layout/Section.css');
+@import url('./components/common/Breadcrumb.css');
+@import url('./components/common/PageTransition.css');
+@import url('./components/navigation/QuickActions.css');
+@import url('./components/navigation/RecentlyViewed.css');
+@import url('./components/navigation/ContinueWorking.css');
 
 /* CSS Reset */
 * {
@@ -10,34 +20,98 @@
   box-sizing: border-box;
 }
 
-/* Root Variables */
+/* Root Variables - Premium Color Grading */
 :root {
-  --primary-color: #6c63ff;
-  --secondary-color: #00d4ff;
-  --background-color: #080810;
-  --card-bg: rgba(255, 255, 255, 0.06);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --text-color: #ffffff;
-  --text-secondary: #b5b5c3;
+  /* Primary Accent Colors */
+  --primary-color: #00d9ff;
+  --primary-light: #26e5ff;
+  --primary-dark: #00a8cc;
+  
+  /* Secondary Accent Colors */
+  --secondary-color: #0099ff;
+  --secondary-light: #33adff;
+  --secondary-dark: #0066cc;
+  
+  /* Tertiary Accent Colors */
+  --tertiary-color: #7c3aed;
+  --tertiary-light: #a855f7;
+  --tertiary-dark: #6d28d9;
+  
+  /* Premium Gold/Yellow */
+  --gold-color: #fbbf24;
+  --gold-light: #fcd34d;
+  --gold-dark: #f59e0b;
+  
+  /* Background Colors - Deep Dark Theme */
+  --background-color: #020617;
+  --background-secondary: #08111f;
+  --background-tertiary: #111827;
+  
+  /* Surface Colors */
+  --surface-color: #0f172a;
+  --surface-light: #172033;
+  --surface-dark: #020617;
+  
+  /* Card Background - Enhanced Glassmorphism */
+  --card-bg: rgba(15, 23, 42, 0.62);
+  --card-bg-hover: rgba(15, 23, 42, 0.78);
+  --card-overlay: rgba(15, 23, 42, 0.9);
+  
+  /* Border Colors */
+  --border-color: rgba(148, 163, 184, 0.14);
+  --border-light: rgba(0, 217, 255, 0.18);
+  --border-highlight: rgba(0, 217, 255, 0.36);
+  
+  /* Text Colors */
+  --text-color: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-muted: #64748b;
+  
+  /* Status Colors */
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --info-color: #0099ff;
 
+  /* Transitions & Timing */
   --transition: 0.3s ease;
-  --radius: 20px;
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  --transition-slow: 0.5s ease;
+  --transition-fast: 0.15s ease;
+  
+  /* Borders & Radius */
+  --radius: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-full: 999px;
+  
+  /* Shadows - Premium */
+  --shadow-sm: 0 8px 22px rgba(0, 0, 0, 0.22);
+  --shadow-md: 0 18px 46px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 28px 76px rgba(0, 0, 0, 0.34);
+  --shadow-xl: 0 36px 110px rgba(0, 0, 0, 0.42);
+  --shadow-glow: 0 0 30px rgba(0, 217, 255, 0.2);
 }
 
 /* Body Styling */
 body {
   font-family: 'Inter', sans-serif;
-  background: var(--background-color);
+  background:
+    radial-gradient(circle at 12% -8%, rgba(0, 217, 255, 0.12), transparent 30%),
+    radial-gradient(circle at 88% 4%, rgba(251, 191, 36, 0.08), transparent 24%),
+    var(--background-color);
   color: var(--text-color);
   overflow-x: hidden;
   line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
 /* Anchor Tags */
 a {
   text-decoration: none;
   color: inherit;
+  transition: var(--transition);
 }
 
 /* Images */
@@ -52,6 +126,7 @@ button {
   outline: none;
   cursor: pointer;
   font-family: inherit;
+  transition: var(--transition);
 }
 
 /* Inputs */
@@ -61,6 +136,8 @@ select {
   outline: none;
   border: none;
   font-family: inherit;
+  background: transparent;
+  color: inherit;
 }
 
 /* Lists */
@@ -70,115 +147,395 @@ ul {
 
 /* Container Utility */
 .container {
-  width: 90%;
-  max-width: 1400px;
+  width: min(1120px, calc(100% - 40px));
+  max-width: 1120px;
   margin: auto;
 }
 
-/* Gradient Background */
+.landing-page {
+  min-height: 100vh;
+  background: #020617;
+}
+
+/* ============================================
+   BACKGROUND UTILITIES
+   ============================================ */
+
+/* Premium Gradient Background */
 .gradient-bg {
+  background: linear-gradient(
+    135deg,
+    var(--background-color) 0%,
+    var(--background-secondary) 50%,
+    var(--background-color) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background:
-    radial-gradient(circle at top left, #1d1d3d, transparent 40%),
-    radial-gradient(circle at bottom right, #101025, transparent 40%),
-    #080810;
+    radial-gradient(circle at 20% 50%, rgba(0, 217, 255, 0.08), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.08), transparent 50%),
+    radial-gradient(circle at 40% 0%, rgba(251, 191, 36, 0.05), transparent 50%);
+  pointer-events: none;
+}
+
+/* Animated Gradient Background */
+.animated-gradient-bg {
+  background: linear-gradient(
+    -45deg,
+    var(--background-color),
+    var(--background-secondary),
+    var(--background-tertiary),
+    var(--background-color)
+  );
+  background-size: 400% 400%;
+  animation: gradientBg 15s ease infinite;
 }
 
 /* Glassmorphism Utility */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px);
+  background: var(--card-bg);
+  backdrop-filter: blur(24px);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
+
+.glass-effect:hover {
+  background: rgba(13, 20, 44, 0.5);
+  border-color: var(--border-highlight);
+}
+
+/* Premium Glass Effect */
+.glass-premium {
+  background: rgba(13, 20, 44, 0.3);
+  backdrop-filter: blur(32px);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(0, 217, 255, 0.1);
+}
+
+/* ============================================
+   TEXT UTILITIES
+   ============================================ */
 
 /* Gradient Text */
 .gradient-text {
   background: linear-gradient(
     90deg,
-    #ffffff,
-    #8f8fff,
-    #00d4ff
+    #f8fafc,
+    #00d9ff,
+    #7c3aed,
+    #fbbf24
   );
-
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 6s ease infinite;
 }
 
-/* Smooth Animations */
+.gradient-text-static {
+  background: linear-gradient(90deg, #f8fafc 0%, #00d9ff 50%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow Text */
+.glow-text {
+  color: var(--primary-light);
+  text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+/* ============================================
+   BUTTON UTILITIES
+   ============================================ */
+
+/* Premium Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--background-color);
+  padding: 12px 28px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition);
+  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(0, 217, 255, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Premium Secondary Button */
+.btn-secondary {
+  background: rgba(0, 217, 255, 0.1);
+  color: var(--primary-light);
+  padding: 12px 28px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--border-light);
+  transition: all var(--transition);
+}
+
+.btn-secondary:hover {
+  background: rgba(0, 217, 255, 0.15);
+  border-color: var(--border-highlight);
+  transform: translateY(-2px);
+}
+
+/* Ghost Button */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-color);
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition);
+}
+
+.btn-ghost:hover {
+  background: rgba(0, 217, 255, 0.05);
+  border-color: var(--primary-color);
+  color: var(--primary-light);
+}
+
+/* ============================================
+   CARD UTILITIES
+   ============================================ */
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: all var(--transition);
+  backdrop-filter: blur(16px);
+}
+
+.card:hover {
+  background: var(--card-bg-hover);
+  border-color: var(--border-light);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ============================================
+   INPUT UTILITIES
+   ============================================ */
+
+.input-field {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(0, 217, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  color: var(--text-color);
+  font-size: 14px;
+  transition: all var(--transition);
+}
+
+.input-field:focus {
+  background: rgba(0, 217, 255, 0.08);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
+}
+
+.input-field::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* ============================================
+   SMOOTH ANIMATIONS & TRANSITIONS
+   ============================================ */
+
 .transition {
   transition: var(--transition);
 }
 
-/* Reusable Section */
-.section {
-  padding: 100px 0;
+.transition-fast {
+  transition: var(--transition-fast);
 }
 
-/* Scrollbar */
+.transition-slow {
+  transition: var(--transition-slow);
+}
+
+/* ============================================
+   REUSABLE SECTION STYLING
+   ============================================ */
+
+.section {
+  padding: 96px 0;
+  position: relative;
+}
+
+.section-title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 60px;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0d0d18;
+  background: var(--surface-color);
 }
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(
+    180deg,
     var(--primary-color),
     var(--secondary-color)
   );
-
   border-radius: 20px;
+  border: 3px solid var(--surface-color);
 }
 
-/* Selection */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    var(--primary-light),
+    var(--secondary-light)
+  );
+}
+
+/* ============================================
+   TEXT SELECTION
+   ============================================ */
+
 ::selection {
   background: var(--primary-color);
-  color: white;
+  color: var(--background-color);
 }
 
-/* Responsive Typography */
+::-moz-selection {
+  background: var(--primary-color);
+  color: var(--background-color);
+}
+
+/* ============================================
+   RESPONSIVE TYPOGRAPHY
+   ============================================ */
+
 h1 {
-  font-size: 72px;
+  font-size: clamp(44px, 6vw, 72px);
+  font-weight: 900;
   line-height: 1.1;
+  letter-spacing: 0;
 }
 
 h2 {
-  font-size: 48px;
+  font-size: clamp(32px, 4.2vw, 48px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
 h3 {
   font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: 700;
 }
 
 p {
   color: var(--text-secondary);
   font-size: 18px;
+  line-height: 1.6;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
+.text-sm {
+  font-size: 14px;
+  color: var(--text-tertiary);
+}
+
+.text-lg {
+  font-size: 20px;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
   h1 {
-    font-size: 52px;
+    font-size: 56px;
   }
 
   h2 {
-    font-size: 38px;
+    font-size: 40px;
+  }
+
+  .section {
+    padding: 100px 0;
   }
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 70px 0;
+    padding: 80px 0;
   }
 
   h1 {
-    font-size: 42px;
+    font-size: 40px;
+    letter-spacing: -1px;
   }
 
   h2 {
     font-size: 32px;
+    letter-spacing: -0.5px;
+  }
+
+  h3 {
+    font-size: 24px;
   }
 
   p {
@@ -187,5 +544,12 @@ p {
 
   .container {
     width: 95%;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }

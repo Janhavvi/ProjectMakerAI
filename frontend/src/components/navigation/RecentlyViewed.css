@@ -1,0 +1,124 @@
+/* src/components/navigation/RecentlyViewed.css */
+
+.recently-viewed {
+  width: 100%;
+  padding: var(--spacing-8);
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.05) 0%,
+    rgba(0, 217, 255, 0.03) 100%
+  );
+  border: 1px solid rgba(124, 58, 237, 0.1);
+  border-radius: var(--radius-lg);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.recently-viewed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.recently-viewed-header h3 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.view-all-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.view-all-link:hover {
+  gap: var(--spacing-3);
+}
+
+.recently-viewed-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.recently-viewed-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.recently-viewed-item:hover {
+  background: rgba(0, 217, 255, 0.08);
+  border-color: rgba(0, 217, 255, 0.2);
+  color: var(--text-color);
+  transform: translateX(4px);
+}
+
+.project-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.project-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.project-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.project-time {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+}
+
+.project-arrow {
+  color: var(--text-tertiary);
+  transition: all 0.3s ease;
+}
+
+.recently-viewed-item:hover .project-arrow {
+  color: var(--primary-color);
+  transform: translateX(2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .recently-viewed {
+    padding: var(--spacing-6);
+  }
+
+  .recently-viewed-item {
+    padding: var(--spacing-3);
+  }
+
+  .project-icon {
+    font-size: 1.25rem;
+  }
+
+  .recently-viewed-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+  }
+}

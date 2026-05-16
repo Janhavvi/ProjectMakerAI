@@ -1,7 +1,7 @@
 /* src/components/landing/FAQ.css */
 
 .faq {
-  background: #080810;
+  background: #020617;
 }
 
 .faq-header {
@@ -11,18 +11,22 @@
 }
 
 .faq-header span {
-  color: #8f8fff;
+  color: #9ffcf0;
 
   font-size: 14px;
   font-weight: 700;
 
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .faq-header h2 {
   margin-top: 20px;
 
   font-size: 52px;
+}
+
+.faq-header h2 {
+  font-size: clamp(34px, 4.6vw, 52px);
 }
 
 .faq-list {
@@ -37,11 +41,11 @@
 }
 
 .faq-item {
-  border-radius: 20px;
+  border-radius: 12px;
 
-  background: rgba(255,255,255,0.04);
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.5));
 
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(148, 163, 184, 0.14);
 
   overflow: hidden;
 
@@ -49,12 +53,13 @@
 }
 
 .faq-item.active {
-  border-color: rgba(108,99,255,0.4);
+  border-color: rgba(94, 234, 212, 0.4);
 
-  box-shadow: 0 0 30px rgba(108,99,255,0.12);
+  box-shadow: 0 24px 70px rgba(0,0,0,0.25), 0 0 30px rgba(94,234,212,0.1);
 }
 
 .faq-question {
+  width: 100%;
   padding: 25px 30px;
 
   display: flex;
@@ -62,6 +67,9 @@
   justify-content: space-between;
 
   cursor: pointer;
+  background: transparent;
+  color: #ffffff;
+  text-align: left;
 }
 
 .faq-question h3 {
@@ -70,7 +78,7 @@
 
 .faq-question span {
   font-size: 28px;
-  color: #8f8fff;
+  color: #9ffcf0;
 }
 
 .faq-answer {

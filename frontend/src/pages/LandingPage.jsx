@@ -12,24 +12,15 @@ import CTA from '../components/landing/CTA';
 
 function LandingPage() {
   return (
-    <div>
-
+    <div className="landing-page">
       <Navbar />
-
       <Hero />
-
       <Features />
-
       <Testimonials />
-
       <Pricing />
-
       <FAQ />
-
       <CTA />
-
       <Footer />
-
     </div>
   );
 }

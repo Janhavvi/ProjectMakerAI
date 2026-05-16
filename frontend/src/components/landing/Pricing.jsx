@@ -1,6 +1,7 @@
 // src/components/landing/Pricing.jsx
 
 import { motion } from 'framer-motion';
+import Button from '../common/Button';
 import './Pricing.css';
 
 function Pricing() {
@@ -123,9 +124,9 @@ function Pricing() {
 
               </ul>
 
-              <button>
+              <Button to="/register" fullWidth>
                 {plan.button}
-              </button>
+              </Button>
 
             </motion.div>
 

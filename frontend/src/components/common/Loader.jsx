@@ -1,13 +1,11 @@
-// src/components/common/Loader.jsx
-
 import './Loader.css';
 
-function Loader() {
+function Loader({ label = 'Generating AI Website...' }) {
   return (
-    <div className="loader-container">
-      <div className="loader-circle"></div>
+    <div className="loader-container" role="status" aria-live="polite">
+      <div className="loader-circle" aria-hidden="true"></div>
 
-      <p>Generating AI Website...</p>
+      <p>{label}</p>
     </div>
   );
 }

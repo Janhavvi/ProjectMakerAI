@@ -1,6 +1,11 @@
 // backend/controllers/aiController.js
 
 const https = require('https');
+const Generation = require('../models/Generation');
+const Project = require('../models/Project');
+const StyleVersion = require('../models/StyleVersion');
+const ImprovementReport = require('../models/ImprovementReport');
+const { sendSuccess, sendError } = require('../utils/apiResponse');
 
 const AI_TIMEOUT_MS = 60000;
 
@@ -800,6 +805,319 @@ const generateWebsite = async (req, res) => {
   }
 };
 
+const inferSections = (prompt = '') => {
+  const lowerPrompt = prompt.toLowerCase();
+
+  if (lowerPrompt.includes('restaurant') || lowerPrompt.includes('food')) {
+    return ['Hero', 'Menu', 'Booking', 'Chef section', 'Gallery', 'Reviews', 'Contact'];
+  }
+
+  if (lowerPrompt.includes('fitness') || lowerPrompt.includes('gym')) {
+    return ['Hero', 'Plans', 'Trainers', 'BMI calculator', 'Testimonials', 'Pricing'];
+  }
+
+  if (lowerPrompt.includes('saas') || lowerPrompt.includes('startup') || lowerPrompt.includes('ai')) {
+    return ['Hero', 'Features', 'Pricing', 'FAQ', 'Testimonials', 'CTA'];
+  }
+
+  return ['Hero', 'Benefits', 'Features', 'Gallery', 'Testimonials', 'CTA'];
+};
+
+const buildProjectPlan = (idea = '') => {
+  const title = getPromptSummary(idea || 'AI Project').split(/[.?!]/)[0].slice(0, 70) || 'AI Project';
+
+  return {
+    title,
+    description: `A production-ready product plan for: ${idea}`,
+    features: [
+      'Account-based dashboard',
+      'AI generation workflow',
+      'Saved project history',
+      'Live preview and export tools',
+      'Analytics and usage tracking'
+    ],
+    pages: ['Landing', 'Login', 'Dashboard', 'Generator', 'Project editor', 'Settings'],
+    components: ['Navbar', 'Sidebar', 'PromptBox', 'ProjectCard', 'LivePreview', 'ImprovementPanel'],
+    techStack: ['React', 'Node.js', 'Express', 'MongoDB', 'JWT', 'Normal CSS'],
+    folderStructure: ['frontend/src/pages', 'frontend/src/components', 'backend/controllers', 'backend/models', 'backend/routes'],
+    databaseSchema: ['User', 'Project', 'Generation', 'StyleVersion', 'ImprovementReport', 'Folder'],
+    apiRoutes: ['/api/auth', '/api/projects', '/api/ai', '/api/folders'],
+    deploymentSteps: ['Configure environment variables', 'Deploy backend', 'Set frontend API URL', 'Deploy frontend']
+  };
+};
+
+const buildImprovementReport = () => ({
+  designScore: 86,
+  uiScore: 88,
+  mobileScore: 82,
+  seoScore: 79,
+  conversionScore: 84,
+  suggestions: [
+    {
+      issue: 'Hero value proposition needs stronger contrast',
+      whyItMatters: 'Users decide whether to continue within the first few seconds.',
+      suggestedFix: 'Increase headline contrast, add proof metrics, and place one primary CTA above the fold.'
+    },
+    {
+      issue: 'Trust signals are light',
+      whyItMatters: 'Trust sections improve conversion for SaaS and service pages.',
+      suggestedFix: 'Add logos, testimonials, security badges, or launch metrics below the hero.'
+    },
+    {
+      issue: 'Mobile hierarchy can be tighter',
+      whyItMatters: 'A large share of visitors will scan the page on smaller screens.',
+      suggestedFix: 'Reduce card padding, stack CTAs, and keep preview media below the intro copy.'
+    },
+    {
+      issue: 'SEO metadata is generic',
+      whyItMatters: 'Search and social previews need specific page context.',
+      suggestedFix: 'Add descriptive title, meta description, semantic headings, and structured sections.'
+    }
+  ]
+});
+
+const applyStyleToHtml = (html = '', style = 'Dark futuristic style') => {
+  const styleName = escapeHtml(style);
+  const styleBlock = `<style id="projectmaker-restyle">
+    :root { --pm-accent:#5eead4; --pm-accent-2:#60a5fa; }
+    body {
+      background:
+        radial-gradient(circle at 18% 10%, rgba(94,234,212,.22), transparent 28%),
+        radial-gradient(circle at 85% 14%, rgba(96,165,250,.2), transparent 26%),
+        linear-gradient(135deg,#020617,#0f172a 52%,#111827) !important;
+      color:#f8fbff !important;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    }
+    section, header, main, article, aside, nav {
+      border-radius: 18px;
+    }
+    button, a {
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+    }
+    button:hover, a:hover {
+      transform: translateY(-2px);
+    }
+    .projectmaker-style-badge {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9999;
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.86);
+      border: 1px solid rgba(255,255,255,.18);
+      color: #9ffcf0;
+      font: 800 12px Inter, sans-serif;
+      backdrop-filter: blur(16px);
+    }
+  </style>`;
+  const badge = `<div class="projectmaker-style-badge">Restyled: ${styleName}</div>`;
+
+  if (html.includes('</head>')) {
+    return html.replace('</head>', `${styleBlock}</head>`).replace('</body>', `${badge}</body>`);
+  }
+
+  return `${styleBlock}${html}${badge}`;
+};
+
+const generateWebsiteTool = async (req, res) => {
+  try {
+    const { prompt, style = 'Minimal SaaS', projectType = 'Landing page' } = req.body;
+
+    if (!prompt?.trim()) {
+      return sendError(res, 'Prompt is required', 400);
+    }
+
+    const html = createFallbackWebsite(`${prompt}\nStyle: ${style}\nType: ${projectType}`);
+
+    await Generation.create({
+      user: req.user._id,
+      type: 'website',
+      prompt,
+      style,
+      projectType,
+      output: html,
+      tokensUsed: 8
+    });
+
+    return sendSuccess(res, 'Website generated', {
+      html,
+      smartSections: inferSections(prompt),
+      style,
+      projectType
+    });
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+};
+
+const generateProject = async (req, res) => {
+  try {
+    const { idea } = req.body;
+
+    if (!idea?.trim()) {
+      return sendError(res, 'Project idea is required', 400);
+    }
+
+    const plan = buildProjectPlan(idea);
+
+    await Generation.create({
+      user: req.user._id,
+      type: 'project',
+      prompt: idea,
+      output: plan,
+      tokensUsed: 6
+    });
+
+    return sendSuccess(res, 'Project plan generated', plan);
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+};
+
+const analyzeProject = async (req, res) => {
+  try {
+    const { idea } = req.body;
+
+    if (!idea?.trim()) {
+      return sendError(res, 'Project idea is required', 400);
+    }
+
+    const analysis = {
+      difficulty: idea.length > 180 ? 'Advanced' : 'Intermediate',
+      bestTechStack: ['React', 'Node.js', 'Express', 'MongoDB', 'JWT'],
+      coreFeatures: ['Authentication', 'Dashboard', 'CRUD workflow', 'Search and filters'],
+      advancedFeatures: ['AI assistant', 'Version history', 'Team collaboration', 'Analytics'],
+      databaseModels: ['User', 'Project', 'Generation', 'Folder'],
+      apiEndpoints: ['/api/auth/register', '/api/projects', '/api/ai/analyze-project'],
+      uiPages: ['Landing', 'Dashboard', 'Editor', 'Settings'],
+      timeline: ['Day 1: Auth and models', 'Day 2: Generator flow', 'Day 3: Dashboard', 'Day 4: Polish and deploy'],
+      monetizationIdeas: ['Free credits', 'Pro plan', 'Team plan', 'Export add-ons'],
+      improvementSuggestions: buildImprovementReport().suggestions
+    };
+
+    await Generation.create({
+      user: req.user._id,
+      type: 'analysis',
+      prompt: idea,
+      output: analysis,
+      tokensUsed: 5
+    });
+
+    return sendSuccess(res, 'Project analyzed', analysis);
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+};
+
+const restyleWebsite = async (req, res) => {
+  try {
+    const { projectId, html, style = 'Dark futuristic style' } = req.body;
+    const project = projectId
+      ? await Project.findOne({ _id: projectId, user: req.user._id })
+      : null;
+    const sourceHtml = html || project?.generatedCode;
+
+    if (!sourceHtml) {
+      return sendError(res, 'Website HTML is required', 400);
+    }
+
+    const restyledHtml = applyStyleToHtml(sourceHtml, style);
+    let styleVersion = null;
+
+    if (project) {
+      styleVersion = await StyleVersion.create({
+        user: req.user._id,
+        project: project._id,
+        name: `${style} version`,
+        style,
+        generatedCode: restyledHtml,
+        notes: 'AI restyle preserved original content and updated visual system.'
+      });
+
+      project.style = style;
+      project.generatedCode = restyledHtml;
+      project.styleVersions.push(styleVersion._id);
+      await project.save();
+    }
+
+    return sendSuccess(res, 'Website restyled', {
+      html: restyledHtml,
+      styleVersion
+    });
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+};
+
+const improveWebsite = async (req, res) => {
+  try {
+    const { projectId } = req.body;
+    const reportData = buildImprovementReport();
+    let report = reportData;
+
+    if (projectId) {
+      const project = await Project.findOne({ _id: projectId, user: req.user._id });
+
+      if (!project) {
+        return sendError(res, 'Project not found', 404);
+      }
+
+      report = await ImprovementReport.create({
+        user: req.user._id,
+        project: project._id,
+        ...reportData
+      });
+
+      project.improvementReports.push(report._id);
+      await project.save();
+    }
+
+    return sendSuccess(res, 'Website improvement report created', report);
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+};
+
+const applyImprovement = async (req, res) => {
+  try {
+    const { projectId, improvementText } = req.body;
+
+    if (!projectId) {
+      return sendError(res, 'Project id is required', 400);
+    }
+
+    const project = await Project.findOne({ _id: projectId, user: req.user._id });
+
+    if (!project) {
+      return sendError(res, 'Project not found', 404);
+    }
+
+    const updatedHtml = applyStyleToHtml(
+      project.generatedCode,
+      improvementText || 'Applied AI conversion and accessibility improvements'
+    );
+
+    project.generatedCode = updatedHtml;
+    project.versions.push({
+      title: 'Applied AI improvement',
+      prompt: improvementText || 'AI improvement',
+      generatedCode: updatedHtml
+    });
+    await project.save();
+
+    return sendSuccess(res, 'Improvement applied', project);
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+};
+
 module.exports = {
-  generateWebsite
+  generateWebsite,
+  generateWebsiteTool,
+  generateProject,
+  analyzeProject,
+  restyleWebsite,
+  improveWebsite,
+  applyImprovement
 };

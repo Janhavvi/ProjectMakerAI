@@ -1,58 +1,71 @@
-/* src/components/dashboard/Sidebar.css */
+/* src/components/dashboard/Sidebar.css - Premium Sidebar */
 
 .sidebar {
   width: 260px;
-
   min-height: 100vh;
-
   padding: 35px 20px;
-
-  background: rgba(255,255,255,0.03);
-
-  border-right:
-    1px solid rgba(255,255,255,0.08);
+  background: rgba(13, 20, 44, 0.4);
+  border-right: 1px solid rgba(0, 217, 255, 0.15);
+  backdrop-filter: blur(16px);
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  z-index: 100;
 }
 
 .sidebar-logo {
-  font-size: 28px;
-  font-weight: 700;
-
+  font-size: 24px;
+  font-weight: 800;
   margin-bottom: 50px;
-
-  background: linear-gradient(
-    90deg,
-    #ffffff,
-    #8f8fff,
-    #00d4ff
-  );
-
+  background: linear-gradient(90deg, #f8fafc, #00d9ff, #fbbf24);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
 }
 
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-
-  gap: 20px;
-
+  gap: 12px;
   list-style: none;
 }
 
 .sidebar-menu li {
-  padding: 16px 20px;
-
-  border-radius: 14px;
-
-  color: #c4c4d0;
-
+  padding: 14px 16px;
+  border-radius: 12px;
+  color: #cbd5e1;
   cursor: pointer;
-
-  transition: 0.3s ease;
+  transition: all 0.25s ease;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
 }
 
 .sidebar-menu li:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(0, 217, 255, 0.1);
+  color: #00d9ff;
+  transform: translateX(4px);
+}
 
-  color: white;
+.sidebar-menu li.active {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(0, 153, 255, 0.1));
+  color: #00d9ff;
+  border-left: 3px solid #00d9ff;
+  padding-left: 13px;
+}
+
+.sidebar-menu li.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #00d9ff, #0099ff);
+  border-radius: 0 3px 3px 0;
 }

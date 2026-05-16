@@ -1,6 +1,7 @@
 // src/components/landing/CTA.jsx
 
 import { motion } from 'framer-motion';
+import Button from '../common/Button';
 import './CTA.css';
 
 function CTA() {
@@ -46,13 +47,13 @@ function CTA() {
 
           <div className="cta-buttons">
 
-            <button className="cta-primary-btn">
+            <Button to="/register" size="lg">
               Start Free
-            </button>
+            </Button>
 
-            <button className="cta-secondary-btn">
+            <Button to="/templates" variant="secondary" size="lg">
               View Templates
-            </button>
+            </Button>
 
           </div>
 

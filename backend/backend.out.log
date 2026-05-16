@@ -28,3 +28,19 @@ MongoDB Connected
 Port 5000 is already in use. The backend is probably already running.
 Stop the existing backend process before starting another one, or change PORT in backend/.env.
 [31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5000
+MongoDB Connected
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Server running on port 5000
+MongoDB Connected
+AI ERROR: AI provider request timed out after 60 seconds
+AI ERROR: AI provider request timed out after 60 seconds
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+Port 5000 is already in use. The backend is probably already running.
+Stop the existing backend process before starting another one, or change PORT in backend/.env.
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m

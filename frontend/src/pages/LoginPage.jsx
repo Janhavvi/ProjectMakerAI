@@ -8,6 +8,7 @@ import './Auth.css';
 
 function LoginPage() {
   const navigate = useNavigate();
+  const googleOrigin = window.location.origin;
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -27,13 +28,21 @@ function LoginPage() {
       const response = await api.post('/auth/google', {
         credential: credentialResponse.credential
       });
+      const authData = response.data?.data || response.data;
 
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', JSON.stringify({
+        name: authData.name,
+        email: authData.email
+      }));
 
       navigate('/generate');
     } catch (error) {
       console.log('GOOGLE LOGIN ERROR:', error.response?.data || error);
-      alert(error.response?.data?.message || 'Google login failed');
+      setError(
+        error.response?.data?.message ||
+          `Google login failed. Add ${googleOrigin} to Authorized JavaScript origins in Google Cloud, or use email login.`
+      );
     }
   };
 
@@ -50,11 +59,12 @@ function LoginPage() {
       setLoading(true);
 
       const response = await api.post('/auth/login', formData);
+      const authData = response.data?.data || response.data;
 
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', authData.token);
       localStorage.setItem('user', JSON.stringify({
-        name: response.data.name,
-        email: response.data.email
+        name: authData.name,
+        email: authData.email
       }));
 
       navigate('/dashboard');
@@ -93,7 +103,11 @@ function LoginPage() {
           <div className="google-login-box">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
-              onError={() => setError('Google login failed')}
+              onError={() =>
+                setError(
+                  `Google blocked this origin. Add ${googleOrigin} in Google Cloud Console -> OAuth Client -> Authorized JavaScript origins.`
+                )
+              }
               theme="filled_black"
               size="large"
               shape="pill"

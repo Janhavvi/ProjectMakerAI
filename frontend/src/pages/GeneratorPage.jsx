@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from 'react';
 import api from '../services/api';
+import { createProject } from '../services/projectService';
 import Loader from '../components/common/Loader';
 import './GeneratorPage.css';
 
@@ -67,6 +68,20 @@ const deviceSizes = {
   desktop: '100%',
   tablet: '768px',
   mobile: '390px'
+};
+
+const getProjectTitle = (request, fallback = 'AI Generated Website') => {
+  const cleanRequest = request.replace(/\s+/g, ' ').trim();
+
+  if (!cleanRequest) {
+    return fallback;
+  }
+
+  return cleanRequest
+    .split(' ')
+    .slice(0, 6)
+    .join(' ')
+    .replace(/[^\w\s-]/g, '') || fallback;
 };
 
 const themeCss = {
@@ -1054,6 +1069,7 @@ ${extraInstruction || 'No extra edit yet.'}
 
         setSiteHtml(screenshotHtml);
         setStatusMessage('Screenshot converted into a premium remix preview.');
+        await saveGeneratedProject(screenshotHtml, effectivePrompt, 'Screenshot remix');
 
         window.setTimeout(() => {
           resultRef.current?.scrollIntoView({
@@ -1094,9 +1110,7 @@ ${extraInstruction || 'No extra edit yet.'}
       }
 
       setSiteHtml(cleaned);
-      setStatusMessage(
-        response.data.warning || 'Website generated. Opening preview below.'
-      );
+      await saveGeneratedProject(cleaned, effectivePrompt, 'Generated');
 
       window.setTimeout(() => {
         resultRef.current?.scrollIntoView({
@@ -1148,6 +1162,30 @@ ${extraInstruction || 'No extra edit yet.'}
     generateWebsite(liveEdit);
   };
 
+  const saveGeneratedProject = async (html, effectivePrompt, mode = 'Generated') => {
+    if (!localStorage.getItem('token')) {
+      return;
+    }
+
+    try {
+      const project = await createProject({
+        title: getProjectTitle(effectivePrompt),
+        prompt: effectivePrompt,
+        generatedCode: html,
+        folder: pageType,
+        status: mode,
+        style,
+        projectType: pageType,
+        tags: [style, theme, industry, pageType].filter(Boolean)
+      });
+
+      setStatusMessage(`Website generated and saved to your account as "${project.title}".`);
+    } catch (saveError) {
+      console.log('PROJECT SAVE ERROR:', saveError);
+      setStatusMessage('Website generated. Auto-save could not complete, so copy or export the code.');
+    }
+  };
+
   const themedHtml = useMemo(() => {
     if (!siteHtml) return '';
     const injectedStyle = `<style id="projectmaker-theme-switcher">${themeCss[theme] || ''}</style>`;
@@ -1185,21 +1223,59 @@ ${extraInstruction || 'No extra edit yet.'}
 
   return (
     <div className="generator-page">
+      <div className="generator-orb one"></div>
+      <div className="generator-orb two"></div>
       <div className="generator-shell">
-        <section className="generator-intro">
-          <span className="generator-badge">AI Website Builder Studio</span>
+        <aside className="builder-sidebar">
+          <div className="builder-logo">
+            <span>AI</span>
+            <strong>ProjectMaker</strong>
+          </div>
+          <a href="#prompt">Website Builder</a>
+          <a href="/ai-project-generator">Project Generator</a>
+          <a href="/project-analyzer">Idea Analyzer</a>
+          <a href="/saved-projects">Saved Projects</a>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/">Home</a>
+          <button
+            className="sidebar-logout"
+            type="button"
+            onClick={() => {
+              localStorage.removeItem('token');
+              localStorage.removeItem('user');
+              window.location.href = '/login';
+            }}
+          >
+            Logout
+          </button>
+          <div className="builder-usage-card">
+            <span>Account generation</span>
+            <strong>Auto-save on</strong>
+            <p>Every generated website is stored with prompt, style, device preview, and export history.</p>
+          </div>
+        </aside>
 
-          <h1>Prompt, style, edit, preview, and export websites</h1>
+        <main className="generator-workspace">
+        <section className="generator-intro">
+          <span className="generator-badge">Account AI Builder</span>
+
+          <h1>Build inside your workspace.</h1>
 
           <p>
-            Build with the strongest ProjectMaker flow: prompt to website,
-            screenshot-inspired cloning, voice prompts, smart sections, live AI edits,
-            instant theme switching, and production export controls.
+            Prompt, speak, or upload a screenshot. ProjectMaker saves the result to
+            your account with preview, restyle, export, and edit tools.
           </p>
+
+          <div className="generator-capabilities">
+            <span>JWT account</span>
+            <span>Auto-save</span>
+            <span>Style versions</span>
+            <span>AI suggestions</span>
+          </div>
         </section>
 
         <section className="builder-panel">
-          <div className="prompt-panel">
+          <div className="prompt-panel" id="prompt">
             <label htmlFor="prompt">Website prompt</label>
             <textarea
               id="prompt"
@@ -1296,6 +1372,12 @@ ${extraInstruction || 'No extra edit yet.'}
                 ))}
               </div>
             )}
+
+            <div className="assistant-preview-card">
+              <span>AI Design Assistant</span>
+              <h3>Ready to improve your generated UI</h3>
+              <p>After generation, use live edit, theme switching, code export, and dashboard project history.</p>
+            </div>
           </div>
         </section>
 
@@ -1367,6 +1449,7 @@ ${extraInstruction || 'No extra edit yet.'}
             <pre className="code-box">{themedHtml}</pre>
           </section>
         )}
+        </main>
       </div>
     </div>
   );

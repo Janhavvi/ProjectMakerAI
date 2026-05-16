@@ -1,66 +1,95 @@
-/* src/components/dashboard/Topbar.css */
+/* src/components/dashboard/Topbar.css - Premium Topbar */
 
 .topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-bottom: 40px;
+  padding: 20px;
+  background: rgba(13, 20, 44, 0.4);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 217, 255, 0.15);
+  backdrop-filter: blur(16px);
+  animation: fadeInDown 0.6s ease-out;
 }
 
 .topbar-search input {
   width: 320px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  background: rgba(0, 217, 255, 0.08);
+  color: #f8fafc;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
 
-  padding: 14px 18px;
+.topbar-search input:focus {
+  background: rgba(0, 217, 255, 0.12);
+  border-color: rgba(0, 217, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
+}
 
-  border-radius: 14px;
-
-  border: 1px solid rgba(255,255,255,0.08);
-
-  background: rgba(255,255,255,0.04);
-
-  color: white;
+.topbar-search input::placeholder {
+  color: #64748b;
 }
 
 .topbar-actions {
   display: flex;
   align-items: center;
-
-  gap: 20px;
+  gap: 16px;
 }
 
 .topbar-actions button {
-  padding: 14px 24px;
-
+  padding: 12px 24px;
   border: none;
   border-radius: 50px;
-
-  background: linear-gradient(
-    90deg,
-    #6c63ff,
-    #00d4ff
-  );
-
-  color: white;
-
+  background: linear-gradient(135deg, #00d9ff, #0099ff);
+  color: #0a0e27;
   cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 217, 255, 0.25);
+}
+
+.topbar-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 217, 255, 0.35);
 }
 
 .topbar-avatar {
-  width: 50px;
-  height: 50px;
-
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: linear-gradient(
-    135deg,
-    #6c63ff,
-    #00d4ff
-  );
-
+  background: linear-gradient(135deg, #00d9ff, #0099ff);
+  color: #0a0e27;
   font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 8px 20px rgba(0, 217, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.topbar-avatar:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .topbar-search input {
+    width: 100%;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
 }

@@ -1,7 +1,9 @@
 /* src/components/landing/CTA.css */
 
 .cta {
-  background: #0b0b14;
+  background:
+    radial-gradient(circle at 82% 12%, rgba(94, 234, 212, 0.13), transparent 28%),
+    #020617;
 }
 
 .cta-box {
@@ -9,7 +11,7 @@
 
   padding: 90px 60px;
 
-  border-radius: 32px;
+  border-radius: 14px;
 
   overflow: hidden;
 
@@ -18,13 +20,15 @@
   background:
     linear-gradient(
       135deg,
-      rgba(108,99,255,0.15),
-      rgba(0,212,255,0.1)
+      rgba(45,212,191,0.14),
+      rgba(56,189,248,0.08),
+      rgba(245,158,11,0.1)
     );
 
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(148, 163, 184, 0.14);
 
   backdrop-filter: blur(20px);
+  box-shadow: 0 32px 90px rgba(0,0,0,0.32);
 }
 
 .cta-box::before {
@@ -37,7 +41,7 @@
 
   background: radial-gradient(
     circle,
-    rgba(108,99,255,0.25),
+    rgba(45,212,191,0.24),
     transparent
   );
 
@@ -45,6 +49,7 @@
   left: -100px;
 
   filter: blur(80px);
+  animation: ctaGlow 8s ease-in-out infinite alternate;
 }
 
 .cta-box span {
@@ -52,16 +57,16 @@
 
   margin-bottom: 20px;
 
-  color: #8f8fff;
+  color: #9ffcf0;
 
   font-size: 14px;
   font-weight: 700;
 
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .cta-box h2 {
-  font-size: 58px;
+  font-size: clamp(36px, 5vw, 58px);
 
   line-height: 1.2;
 
@@ -89,54 +94,14 @@
   gap: 20px;
 }
 
-.cta-primary-btn {
-  padding: 16px 34px;
-
-  border: none;
-  border-radius: 50px;
-
-  background: linear-gradient(
-    90deg,
-    #6c63ff,
-    #00d4ff
-  );
-
-  color: white;
-
-  font-size: 16px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.3s ease;
-
-  box-shadow: 0 0 30px rgba(108,99,255,0.4);
+.cta-buttons .custom-button {
+  border-radius: 999px;
 }
 
-.cta-primary-btn:hover {
-  transform: translateY(-4px);
-
-  box-shadow: 0 0 40px rgba(108,99,255,0.7);
-}
-
-.cta-secondary-btn {
-  padding: 16px 34px;
-
-  border-radius: 50px;
-
-  border: 1px solid rgba(255,255,255,0.1);
-
-  background: transparent;
-
-  color: white;
-
-  cursor: pointer;
-
-  transition: 0.3s ease;
-}
-
-.cta-secondary-btn:hover {
-  background: rgba(255,255,255,0.08);
+@keyframes ctaGlow {
+  to {
+    transform: translate(70px, 45px) scale(1.14);
+  }
 }
 
 /* Responsive */

@@ -77,9 +77,11 @@ function FAQ() {
               key={index}
             >
 
-              <div
+              <button
+                type="button"
                 className="faq-question"
                 onClick={() => toggleFAQ(index)}
+                aria-expanded={activeIndex === index}
               >
 
                 <h3>{faq.question}</h3>
@@ -88,7 +90,7 @@ function FAQ() {
                   {activeIndex === index ? '-' : '+'}
                 </span>
 
-              </div>
+              </button>
 
               {activeIndex === index && (
 

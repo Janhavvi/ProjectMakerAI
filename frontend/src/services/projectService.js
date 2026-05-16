@@ -2,23 +2,44 @@
 
 import api from './api';
 
-export const getProjects =
-  async () => {
+const unwrap = (response) => response.data?.data ?? response.data;
 
-    const response = await api.get(
-      '/projects'
-    );
+export const getProjects = async () => {
+  const response = await api.get('/projects');
+  return unwrap(response);
+};
 
-    return response.data;
-  };
+export const getProjectById = async (projectId) => {
+  const response = await api.get(`/projects/${projectId}`);
+  return unwrap(response);
+};
 
-export const createProject =
-  async (projectData) => {
+export const createProject = async (projectData) => {
+  const response = await api.post('/projects', projectData);
+  return unwrap(response);
+};
 
-    const response = await api.post(
-      '/projects',
-      projectData
-    );
+export const updateProject = async (projectId, projectData) => {
+  const response = await api.put(`/projects/${projectId}`, projectData);
+  return unwrap(response);
+};
 
-    return response.data;
-  };
+export const deleteProject = async (projectId) => {
+  const response = await api.delete(`/projects/${projectId}`);
+  return unwrap(response);
+};
+
+export const duplicateProject = async (projectId) => {
+  const response = await api.post(`/projects/${projectId}/duplicate`);
+  return unwrap(response);
+};
+
+export const toggleProjectFavorite = async (projectId) => {
+  const response = await api.post(`/projects/${projectId}/favorite`);
+  return unwrap(response);
+};
+
+export const getProjectAnalytics = async () => {
+  const response = await api.get('/projects/analytics');
+  return unwrap(response);
+};

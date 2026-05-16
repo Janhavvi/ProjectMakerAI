@@ -1,0 +1,55 @@
+.workspace-topbar {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+  background: rgba(3, 7, 18, 0.72);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.28);
+  backdrop-filter: blur(18px);
+}
+
+.workspace-topbar a {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 13px;
+  background: transparent;
+  color: #dce8fa;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.workspace-topbar a:hover {
+  background: rgba(94,234,212,0.14);
+  color: #ffffff;
+}
+
+.workspace-topbar .workspace-action {
+  min-height: 34px;
+  border-radius: 999px;
+  padding: 0 13px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+@media (max-width: 640px) {
+  .workspace-topbar {
+    left: 10px;
+    right: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 14px;
+  }
+}

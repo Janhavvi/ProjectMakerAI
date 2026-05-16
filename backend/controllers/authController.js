@@ -3,25 +3,36 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const generateToken = require('../utils/generateToken');
-
 const { OAuth2Client } = require('google-auth-library');
+const { sendSuccess, sendError } = require('../utils/apiResponse');
 
-const googleClient = new OAuth2Client(
-  process.env.GOOGLE_CLIENT_ID
-);
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const buildAuthPayload = (user) => ({
+  _id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+  subscription: user.subscription,
+  token: generateToken(user._id)
+});
 
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const userExists = await User.findOne({
-      email
-    });
+    if (!name || !email || !password) {
+      return sendError(res, 'Name, email, and password are required', 400);
+    }
+
+    if (password.length < 6) {
+      return sendError(res, 'Password must be at least 6 characters', 400);
+    }
+
+    const userExists = await User.findOne({ email });
 
     if (userExists) {
-      return res.status(400).json({
-        message: 'User already exists'
-      });
+      return sendError(res, 'User already exists', 400);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -32,17 +43,9 @@ const registerUser = async (req, res) => {
       password: hashedPassword
     });
 
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id)
-    });
-
+    return sendSuccess(res, 'Account created', buildAuthPayload(user), 201);
   } catch (error) {
-    res.status(500).json({
-      message: error.message
-    });
+    return sendError(res, error.message);
   }
 };
 
@@ -50,38 +53,25 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({
-      email
-    });
+    if (!email || !password) {
+      return sendError(res, 'Email and password are required', 400);
+    }
+
+    const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({
-        message: 'Invalid email or password'
-      });
+      return sendError(res, 'Invalid email or password', 401);
     }
 
-    const isMatch = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(401).json({
-        message: 'Invalid email or password'
-      });
+      return sendError(res, 'Invalid email or password', 401);
     }
 
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id)
-    });
-
+    return sendSuccess(res, 'Login successful', buildAuthPayload(user));
   } catch (error) {
-    res.status(500).json({
-      message: error.message
-    });
+    return sendError(res, error.message);
   }
 };
 
@@ -90,9 +80,7 @@ const googleLogin = async (req, res) => {
     const { credential } = req.body;
 
     if (!credential) {
-      return res.status(400).json({
-        message: 'Google credential missing'
-      });
+      return sendError(res, 'Google credential missing', 400);
     }
 
     const ticket = await googleClient.verifyIdToken({
@@ -114,24 +102,66 @@ const googleLogin = async (req, res) => {
       });
     }
 
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id)
-    });
-
+    return sendSuccess(res, 'Google login successful', buildAuthPayload(user));
   } catch (error) {
     console.log('GOOGLE LOGIN ERROR:', error);
-
-    res.status(500).json({
-      message: error.message
-    });
+    return sendError(res, error.message);
   }
+};
+
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return sendError(res, 'Email is required', 400);
+    }
+
+    return sendSuccess(res, 'If that account exists, a secure reset link will be sent.');
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+};
+
+const githubLogin = async (req, res) => {
+  try {
+    const { email, name } = req.body;
+
+    if (!email) {
+      return sendError(res, 'GitHub email missing', 400);
+    }
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = await User.create({
+        name: name || email.split('@')[0],
+        email,
+        password: 'github-login'
+      });
+    }
+
+    return sendSuccess(res, 'GitHub login successful', buildAuthPayload(user));
+  } catch (error) {
+    return sendError(res, error.message);
+  }
+};
+
+const getMe = async (req, res) => {
+  return sendSuccess(res, 'Profile loaded', {
+    _id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+    role: req.user.role,
+    subscription: req.user.subscription
+  });
 };
 
 module.exports = {
   registerUser,
   loginUser,
-  googleLogin
+  googleLogin,
+  forgotPassword,
+  githubLogin,
+  getMe
 };

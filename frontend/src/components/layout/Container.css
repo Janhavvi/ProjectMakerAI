@@ -1,0 +1,58 @@
+/* src/components/layout/Container.css */
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding-left: var(--page-margin-mobile);
+  padding-right: var(--page-margin-mobile);
+}
+
+.container-full {
+  max-width: 100%;
+}
+
+.container-sm {
+  max-width: var(--container-width-sm);
+}
+
+.container-md {
+  max-width: var(--container-width-md);
+}
+
+.container-lg {
+  max-width: var(--container-width-lg);
+}
+
+.container-xl {
+  max-width: var(--container-width-xl);
+}
+
+/* Responsive Padding */
+@media (min-width: 768px) {
+  .container {
+    padding-left: var(--page-margin-tablet);
+    padding-right: var(--page-margin-tablet);
+  }
+
+  .container-md {
+    max-width: var(--container-width-lg);
+  }
+
+  .container-lg {
+    max-width: var(--container-width-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: var(--page-margin-desktop);
+    padding-right: var(--page-margin-desktop);
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    padding-left: var(--page-margin-xl);
+    padding-right: var(--page-margin-xl);
+  }
+}

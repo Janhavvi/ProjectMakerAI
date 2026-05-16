@@ -1,0 +1,87 @@
+.improvement-panel {
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 20px;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(18px);
+}
+
+.improvement-panel > span {
+  color: #8ff8ee;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.improvement-panel h3 {
+  margin: 10px 0 16px;
+  font-size: 34px;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.score-grid div,
+.suggestion-list article {
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  background: rgba(0,0,0,0.16);
+}
+
+.score-grid div {
+  padding: 12px;
+}
+
+.score-grid strong {
+  display: block;
+  color: #ffffff;
+}
+
+.score-grid p,
+.suggestion-list p {
+  margin: 4px 0 0;
+  color: #aebbd0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.suggestion-list {
+  display: grid;
+  gap: 10px;
+}
+
+.suggestion-list article {
+  padding: 14px;
+}
+
+.suggestion-list h4 {
+  margin: 0 0 8px;
+}
+
+.suggestion-list article > strong {
+  display: block;
+  margin: 10px 0;
+  color: #e8f8ff;
+}
+
+.suggestion-list button {
+  min-height: 36px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 13px;
+  background: linear-gradient(90deg, #5eead4, #60a5fa);
+  color: #031014;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .score-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,25 @@
+.style-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.style-selector button {
+  min-height: 38px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 0 13px;
+  background: rgba(255,255,255,0.08);
+  color: #dbeafe;
+  font-weight: 850;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.style-selector button:hover,
+.style-selector button.active {
+  transform: translateY(-2px);
+  border-color: rgba(94,234,212,0.42);
+  background: rgba(94,234,212,0.14);
+  color: #ffffff;
+}

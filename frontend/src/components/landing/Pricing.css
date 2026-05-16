@@ -1,7 +1,9 @@
 /* src/components/landing/Pricing.css */
 
 .pricing {
-  background: #0b0b14;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(96, 165, 250, 0.1), transparent 30%),
+    #020617;
 }
 
 .pricing-header {
@@ -11,18 +13,22 @@
 }
 
 .pricing-header span {
-  color: #8f8fff;
+  color: #9ffcf0;
 
   font-size: 14px;
   font-weight: 700;
 
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .pricing-header h2 {
   margin-top: 20px;
 
   font-size: 52px;
+}
+
+.pricing-header h2 {
+  font-size: clamp(34px, 4.6vw, 52px);
 }
 
 .pricing-grid {
@@ -50,6 +56,14 @@
   transition: 0.3s ease;
 }
 
+.pricing-card {
+  padding: 34px;
+  border-radius: 12px;
+  border-color: rgba(148, 163, 184, 0.14);
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.5));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+}
+
 .pricing-card:hover {
   transform: translateY(-10px);
 
@@ -58,10 +72,14 @@
   box-shadow: 0 0 40px rgba(108,99,255,0.18);
 }
 
-.pricing-card.popular {
-  border: 1px solid rgba(108,99,255,0.5);
+.pricing-card:hover {
+  border-color: rgba(94, 234, 212, 0.3);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.32), 0 0 34px rgba(94, 234, 212, 0.12);
+}
 
-  transform: scale(1.03);
+.pricing-card.popular {
+  border: 1px solid rgba(94, 234, 212, 0.48);
+  transform: translateY(-8px);
 }
 
 .popular-badge {
@@ -72,15 +90,15 @@
 
   padding: 8px 14px;
 
-  border-radius: 50px;
+  border-radius: 999px;
 
   background: linear-gradient(
     90deg,
-    #6c63ff,
-    #00d4ff
+    #5eead4,
+    #60a5fa
   );
 
-  color: white;
+  color: #031014;
 
   font-size: 12px;
   font-weight: 700;
@@ -121,32 +139,10 @@
 
 .pricing-card button {
   width: 100%;
-
-  padding: 16px;
-
-  border: none;
-  border-radius: 50px;
-
-  background: linear-gradient(
-    90deg,
-    #6c63ff,
-    #00d4ff
-  );
-
-  color: white;
-
-  font-size: 16px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.3s ease;
 }
 
 .pricing-card button:hover {
-  transform: translateY(-3px);
-
-  box-shadow: 0 0 35px rgba(108,99,255,0.5);
+  transform: translateY(-2px);
 }
 
 /* Responsive */

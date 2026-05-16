@@ -1,0 +1,82 @@
+/* src/components/layout/Section.css */
+
+.section {
+  width: 100%;
+  padding: var(--section-padding-mobile);
+  margin-bottom: var(--section-margin-bottom);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: var(--section-padding-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: var(--section-padding-desktop);
+  }
+}
+
+@media (min-width: 1280px) {
+  .section {
+    padding: var(--section-padding-xl);
+  }
+}
+
+.section-header {
+  margin-bottom: var(--spacing-8);
+  animation: slideUp 0.6s ease-out;
+}
+
+.section-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-2);
+  letter-spacing: -0.5px;
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+.section-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: var(--line-height-relaxed);
+}
+
+.section-content {
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+/* Section Spacing Variants */
+.section-spacing-tight {
+  margin-bottom: var(--spacing-12);
+}
+
+.section-spacing-normal {
+  margin-bottom: var(--spacing-16);
+}
+
+.section-spacing-loose {
+  margin-bottom: var(--spacing-24);
+}
+
+/* Divider Between Sections */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 217, 255, 0.2),
+    transparent
+  );
+  margin: var(--spacing-16) 0;
+}

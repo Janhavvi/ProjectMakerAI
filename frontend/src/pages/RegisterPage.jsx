@@ -38,11 +38,12 @@ function RegisterPage() {
       setLoading(true);
 
       const response = await api.post('/auth/register', formData);
+      const authData = response.data?.data || response.data;
 
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', authData.token);
       localStorage.setItem('user', JSON.stringify({
-        name: response.data.name,
-        email: response.data.email
+        name: authData.name,
+        email: authData.email
       }));
 
       navigate('/dashboard');

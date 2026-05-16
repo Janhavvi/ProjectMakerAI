@@ -1,40 +1,92 @@
 
 > projectmaker-ai-frontend@1.0.0 dev
-> vite --host 127.0.0.1
+> vite --host 0.0.0.0
 
 
-  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m558[22m[2m[0m ms[22m
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m541[22m[2m[0m ms[22m
 
-  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://10.234.15.10:[1m5173[22m/[39m
 [2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
-[2m8:43:05 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.jsx[22m
-[2m8:44:12 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.jsx[22m
-[2m8:44:18 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.css[22m
-[2m8:45:07 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.css[22m
-[2m9:12:44 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.jsx[22m
-[2m10:10:38 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.jsx[22m
-[2m10:11:03 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/RegisterPage.jsx[22m
-[2m10:11:09 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.jsx[22m
-[2m10:11:43 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.jsx[22m
-[2m10:11:49 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.css[22m
-[2m10:12:44 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.css[22m
-[2m10:12:56 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Auth.css[22m
-[2m10:13:33 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Auth.css[22m
-[2m10:19:56 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m10:20:04 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.jsx[22m
-[2m10:20:18 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.jsx[22m
-[2m10:25:59 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.jsx[22m
-[2m10:27:23 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
-[2m10:27:31 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.jsx[22m
-[2m10:28:51 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.css[22m
-[2m10:29:49 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.css[22m
-[2m10:31:24 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/PricingPage.jsx[22m
-[2m10:31:47 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/PricingPage.jsx[22m
-[2m10:31:54 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/PricingPage.css[22m
-[2m10:32:34 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/PricingPage.css[22m
-[2m11:28:30 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.jsx, /src/pages/GeneratorPage.jsx, /src/pages/RegisterPage.jsx[22m
-[2m12:21:00 am[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.jsx, /src/pages/GeneratorPage.jsx, /src/pages/RegisterPage.jsx[22m
-[2m12:42:58 am[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.jsx[22m
-[2m12:43:17 am[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.css[22m
-[2m12:52:13 am[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.jsx[22m
-[2m12:54:45 am[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/GeneratorPage.jsx[22m
+[2m3:35:27 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.jsx[22m
+[2m3:35:58 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.jsx[22m
+[2m3:36:13 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m3:37:20 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m3:37:39 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.jsx[22m
+[2m3:37:55 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m4:10:03 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.jsx[22m
+[2m4:11:08 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:11:20 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:11:33 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.css[22m
+[2m4:11:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m4:12:36 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Features.css[22m
+[2m4:12:47 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Features.css[22m
+[2m4:13:12 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Features.css[22m
+[2m4:13:30 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Features.css[22m
+[2m4:13:48 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/CTA.css[22m
+[2m4:17:20 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.jsx[22m
+[2m4:18:12 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:18:33 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m4:23:10 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:23:18 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:23:32 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:23:47 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:23:50 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.css[22m
+[2m4:24:13 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m4:24:24 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.css[22m
+[2m4:24:24 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m4:24:57 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:25:00 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:25:24 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:25:32 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:25:43 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:25:48 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:26:02 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:26:15 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m4:26:18 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Footer.css[22m
+[2m4:27:04 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Footer.css[22m
+[2m4:29:07 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Loader.css[22m
+[2m4:29:12 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Loader.css[22m
+[2m4:33:57 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.jsx[22m
+[2m4:33:58 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m4:33:58 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/WorkspaceTopbar.jsx[22m
+[2m4:33:58 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/WorkspaceTopbar.css[22m
+[2m4:33:58 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Loader.jsx[22m
+[2m4:34:26 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Button.jsx[22m
+[2m4:34:26 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.jsx[22m
+[2m4:45:52 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:46:25 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:46:30 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m4:46:34 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m4:47:56 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:48:05 pm[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/main.jsx[22m
+[2m4:48:40 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.css[22m
+[2m4:50:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:50:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m4:50:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m4:50:45 pm[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/main.jsx[22m
+[2m4:50:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.css[22m
+[2m4:54:44 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m4:55:18 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.jsx[22m
+[2m4:59:22 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m4:59:26 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m4:59:47 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Button.css[22m
+[2m5:01:50 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LandingPage.jsx[22m
+[2m5:01:50 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.jsx[22m
+[2m5:01:50 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Pricing.jsx[22m
+[2m5:01:51 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/CTA.jsx[22m
+[2m5:01:51 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/FAQ.jsx[22m
+[2m5:01:57 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.jsx[22m
+[2m5:02:26 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m5:03:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Hero.css[22m
+[2m5:03:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Features.css[22m
+[2m5:03:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Pricing.css[22m
+[2m5:03:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/Testimonials.css[22m
+[2m5:03:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/FAQ.css[22m
+[2m5:03:45 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/landing/CTA.css[22m
+[2m5:04:01 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m5:04:21 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Navbar.css[22m
+[2m5:04:26 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Footer.css[22m
+[2m5:04:43 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Footer.css[22m
+[2m5:04:56 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/common/Loader.css[22m
+[2m5:05:32 pm[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
