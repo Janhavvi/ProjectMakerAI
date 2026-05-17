@@ -43,9 +43,18 @@ const workspaceTabs = [
   'settings'
 ];
 
+const getStoredUser = () => {
+  try {
+    return JSON.parse(localStorage.getItem('user') || 'null');
+  } catch (error) {
+    localStorage.removeItem('user');
+    return null;
+  }
+};
+
 function DashboardPage({ initialView = 'overview' }) {
   const navigate = useNavigate();
-  const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+  const storedUser = getStoredUser();
   const [userName] = useState(storedUser?.name || 'Creator');
   const [activeView, setActiveView] = useState(
     workspaceTabs.includes(initialView) ? initialView : 'overview'
@@ -65,7 +74,7 @@ function DashboardPage({ initialView = 'overview' }) {
         getProjectAnalytics()
       ]);
 
-      setProjects(projectData);
+      setProjects(Array.isArray(projectData) ? projectData : fallbackProjects);
       setAnalytics(analyticsData);
     } catch (error) {
       console.log('DASHBOARD LOAD ERROR:', error);
